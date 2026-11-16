@@ -1,6 +1,6 @@
 # GeoMaster question bank QA report
 
-Content version `geomaster-test-2026-11-plus20` (schema 1.1), generated 2026-11-16T17:57:41+00:00.
+Content version `geomaster-test-2026-11-plus20` (schema 1.1), generated 2026-11-16T19:34:21+00:00.
 
 All questions are **draft, unverified test content**. A source hint is not a verified citation, and nothing here is cleared for ranked play.
 

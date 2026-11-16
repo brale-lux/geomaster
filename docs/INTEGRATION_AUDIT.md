@@ -1,5 +1,9 @@
 # GeoMaster integration audit (Phase A)
 
+> **Update 2026-11-16 (v1.3):** the owner supplied the v1.3 development package, which supersedes v1.2
+> and replaces the missing v1.1 document, plus an updated style guide. See §8 below; §1–§7 describe the
+> first pass and are kept for history.
+
 Date: 2026-11-16. Scope of this pass, as agreed: repository audit, database integration and
 question-bank import. Phases B (Flutter foundation/UI) and D–F are not started.
 
@@ -78,3 +82,25 @@ indexes and RLS on all 50 tables. Running them twice is a no-op (tested).
 
 Blocking items for later phases: the v1.1 prompt (or confirmation to proceed without it), a Supabase
 project and its credentials, and a decision on the Pathfinder visual cues.
+
+## 8. v1.3 update
+
+| Earlier blocker | Resolution |
+|---|---|
+| v1.1 prompt missing | v1.3 says it is not a dependency and defines the missing values. Copied to `docs/`. |
+| Rank XP thresholds were placeholders | Now v1.3 A1: 0 / 500 / 1,500 / 3,500 / 7,000 / 12,000 / 20,000 / 32,000 / 50,000, in `xp_rank_thresholds` under a versioned `xp_ranks` policy. |
+| Leagues not seeded | Six tiers (bronze → world_elite), scoring rules, groups of ≤ 30, weekly Monday-to-Sunday UTC seasons, and `close_league_season()` implementing A2 promotion/relegation. |
+| 195 countries not seeded | Seeded from the v1.3 allowlist JSON (`assets/data/`), validated: 195 unique ISO codes, 193 members + VA + PS, no TW/XK. A trigger refuses a 196th counted country. |
+| No visual cues for the 7th guide | New style guide row: Ibn Battuta guide form (gold turban, sand cloak, teal sash), token key `travel_cultures`, icon `route`. |
+| SVG licence unknown | Owner confirmed Claude Design origin; recorded in `docs/ASSET_PROVENANCE.md` and on each asset row. |
+
+**Conflict found and resolved by the owner:** the new style guide labels the 7th guide's category "Travel & Cultures"
+with trophy "Golden Route Map", while v1.3 keeps him on Explorers, Pioneers & Discoverers with "Explorer's Journal".
+The owner chose the v1.3 names; the style guide's outfit and route icon are used for the art. `subject_categories.style_token_key`
+maps `explorers_pioneers_discoverers` to the `travel_cultures` token entry.
+
+**Kept beyond v1.3's list:** the `quarantined` editorial state (from v1.2 §6) for import failures. No question is currently quarantined.
+
+**Still open:** the character, trophy, mascot, icon and flag SVGs are not in the repository (they were not in the uploaded kit).
+Map shapes stay placeholders until licensed data (e.g. Natural Earth) is imported. There is no Supabase project yet.
+XP daily caps and LP awarding are stored as policy data; the scoring functions that apply them belong to Phase D.

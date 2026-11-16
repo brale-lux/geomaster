@@ -13,6 +13,8 @@ do $$ begin
   assert (select count(*) from questions) = 0, 'player sees no draft questions';
   assert (select count(*) from question_options) = 0, 'player sees no draft options';
   assert (select count(*) from subject_categories) = 7, 'player sees categories';
+  assert (select count(*) from country_catalog) = 195, 'player sees country catalog';
+  assert (select count(*) from league_tiers) = 6, 'player sees league tiers';
   assert (select count(*) from profiles) = 1, 'player sees only own profile';
   begin perform * from question_answer_keys; raise exception 'answer keys readable';
   exception when insufficient_privilege then null; end;
@@ -20,15 +22,19 @@ do $$ begin
   exception when insufficient_privilege then null; end;
   begin perform public.import_question_bank('{}'); raise exception 'player ran import';
   exception when insufficient_privilege then null; end;
-  begin perform public.award_xp('00000000-0000-0000-0000-00000000000a', 999999, 'x', 'adjustment', 'cheat-0001');
+  begin perform public.award_xp('00000000-0000-0000-0000-00000000000a', 999, 'ranked', 'cheat-0001', 'x');
     raise exception 'player awarded xp';
   exception when insufficient_privilege then null; end;
   begin update profiles set app_role = 'admin' where id = auth.uid(); raise exception 'role escalation';
   exception when insufficient_privilege then null; end;
   begin update profiles set total_verified_xp = 1e6 where id = auth.uid(); raise exception 'xp edit';
   exception when insufficient_privilege then null; end;
-  begin insert into xp_ledger (user_id, amount, reason, source_type, idempotency_key)
-        values (auth.uid(), 5000, 'x', 'learn', 'cheat-0002'); raise exception 'ledger insert';
+  begin insert into xp_ledger (user_id, amount, award_type, source_event_id, reason)
+        values (auth.uid(), 500, 'practice_correct', 'cheat-0002', 'x'); raise exception 'ledger insert';
+  exception when insufficient_privilege then null; end;
+  begin perform public.close_league_season(gen_random_uuid()); raise exception 'player closed season';
+  exception when insufficient_privilege then null; end;
+  begin perform * from award_idempotency_keys; raise exception 'idempotency keys readable';
   exception when insufficient_privilege then null; end;
 end $$;
 update profiles set display_name = 'Pip fan' where id = auth.uid();

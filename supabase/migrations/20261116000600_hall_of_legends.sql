@@ -5,10 +5,24 @@
 create table if not exists public.rank_definitions (
   slug             text primary key check (slug ~ '^[a-z_]{3,40}$'),
   position         smallint not null unique check (position between 1 and 9),
-  display_name     text not null unique,
-  -- Thresholds are configurable data; v1.1 values were unavailable at import time.
-  min_verified_xp  bigint not null unique check (min_verified_xp >= 0)
+  display_name     text not null unique
 );
+
+-- v1.3 A1: cumulative lifetime verified-XP thresholds, versioned with the 'xp_ranks' policy.
+create table if not exists public.xp_rank_thresholds (
+  policy_version_id  uuid not null references public.game_policy_versions (id),
+  rank_slug          text not null references public.rank_definitions (slug) on update cascade,
+  min_verified_xp    bigint not null check (min_verified_xp >= 0),
+  primary key (policy_version_id, rank_slug),
+  unique (policy_version_id, min_verified_xp)
+);
+
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'country_mastery_policy_version_fkey') then
+    alter table public.country_mastery add constraint country_mastery_policy_version_fkey
+      foreign key (policy_version_id) references public.game_policy_versions (id);
+  end if;
+end $$;
 
 do $$ begin
   if not exists (select 1 from pg_constraint where conname = 'profiles_rank_slug_fkey') then
@@ -28,7 +42,7 @@ create table if not exists public.historical_people (
   contribution_summary  text not null,
   biography             text not null,
   biography_status      text not null default 'draft_unverified'
-                          check (biography_status in ('draft_unverified', 'in_review', 'approved')),
+                          check (biography_status in ('draft_unverified', 'needs_review', 'approved')),
   source_notes          text not null,
   portrait_disclaimer   text not null default
     'Stylised educational illustration. Not a verified likeness.',
@@ -42,16 +56,19 @@ create table if not exists public.character_roles (
   rank_slug      text references public.rank_definitions (slug) on update cascade,
   category_slug  text references public.subject_categories (slug) on update cascade,
   guide_title    text,
+  -- v1.3 A6: unique (historical_person_id, role_type, role_key).
+  role_key       text generated always as (coalesce(rank_slug, category_slug)) stored,
+  -- Outfit/visual variant from the style guide (Ibn Battuta: 'legend' vs 'guide').
+  visual_variant text not null default 'default',
   created_at     timestamptz not null default now(),
   check ((role_type = 'rank_legend' and rank_slug is not null and category_slug is null)
       or (role_type = 'category_guide' and category_slug is not null and rank_slug is null
           and guide_title is not null)),
-  unique (person_id, role_type, rank_slug, category_slug)
+  unique (person_id, role_type, role_key)
 );
 create unique index if not exists character_roles_one_legend_per_rank
   on public.character_roles (rank_slug) where role_type = 'rank_legend';
-create unique index if not exists character_roles_one_guide_role_per_category_person
-  on public.character_roles (person_id, category_slug) where role_type = 'category_guide';
+-- Several guide roles per category are allowed; category_guide_assignments picks the active one.
 
 -- Data-driven: swapping a guide is an update of this row, not a code change.
 create table if not exists public.category_guide_assignments (
@@ -72,12 +89,27 @@ create table if not exists public.trophy_definitions (
   is_purchasable     boolean not null default false check (is_purchasable = false)
 );
 
+-- v1.3 A4: category trophy tier rules, versioned with the 'category_trophies' policy.
+create table if not exists public.category_trophy_rules (
+  policy_version_id      uuid not null references public.game_policy_versions (id),
+  tier                   text not null check (tier in ('bronze', 'silver', 'gold')),
+  min_distinct_correct   integer not null check (min_distinct_correct > 0),
+  min_subtopics          smallint not null check (min_subtopics > 0),
+  min_accuracy           numeric(4, 3) check (min_accuracy between 0 and 1),
+  accuracy_window        smallint check (accuracy_window > 0),
+  min_distinct_utc_dates smallint check (min_distinct_utc_dates > 0),
+  primary key (policy_version_id, tier),
+  check ((min_accuracy is null) = (accuracy_window is null))
+);
+
 create table if not exists public.user_trophies (
   user_id        uuid not null references public.profiles (id) on delete cascade,
   trophy_id      uuid not null references public.trophy_definitions (id),
   tier           text not null default 'standard' check (tier in ('standard', 'bronze', 'silver', 'gold')),
   unlocked_at    timestamptz not null default now(),
   unlock_source  text not null,
+  -- Earned trophies stay earned; the rule version that awarded them is recorded.
+  policy_version_id uuid references public.game_policy_versions (id),
   primary key (user_id, trophy_id, tier)
 );
 
@@ -89,7 +121,7 @@ create table if not exists public.mentor_dialogue (
   -- Lines are original educational copy, never presented as real quotes.
   is_historical_quote boolean not null default false check (is_historical_quote = false),
   editorial_status   text not null default 'draft_unverified'
-                       check (editorial_status in ('draft_unverified', 'in_review', 'approved', 'retired'))
+                       check (editorial_status in ('draft_unverified', 'needs_review', 'approved', 'retired'))
 );
 
 create table if not exists public.character_art_assets (
@@ -101,8 +133,10 @@ create table if not exists public.character_art_assets (
   bundle_path     text,
   is_placeholder  boolean not null default true,
   license_status  text not null default 'pending_review'
-                    check (license_status in ('pending_review', 'original_work_confirmed', 'licensed', 'rejected')),
+                    check (license_status in ('pending_review', 'original_work_confirmed', 'licensed',
+                                              'ai_generated_assigned', 'rejected')),
   attribution     text,
+  provenance      text,
   alt_text        text not null,
   cultural_review_status text not null default 'pending'
                     check (cultural_review_status in ('pending', 'approved', 'changes_requested', 'not_required'))

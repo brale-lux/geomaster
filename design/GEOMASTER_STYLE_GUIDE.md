@@ -239,8 +239,11 @@ Circle with initials (900), gold fill / navy text, double ring `0 0 0 3 navy, 0 
 | Politics & World Affairs | Aristotle | The Statesman | Pillars of Wisdom | Grey hair and full beard, purple sash |
 | Space & Astronomy | Galileo Galilei | The Stargazer | Celestial Telescope | Long hair, pointed beard, black robe, ruff |
 | Connected World | Hypatia of Alexandria | The Knowledge Weaver | Orb of Knowledge | Hair in a bun, gold headband, teal robe |
+| Travel & Cultures | Ibn Battuta (guide form) | The Pathfinder | Golden Route Map | Gold turban, full dark beard, sand travelling cloak with teal sash — distinct from his Rank 2 look (white turban, green robe) |
 
-Rules: rank legends unlock automatically at each overall rank; category guides award bronze/silver/gold for category challenges; one legend can be set as the active **mentor** (reacts to correct answers and milestones). Guide speech bubble: off-white, r `20 20 20 4`, 14/700 navy text, speaker label 12/900 `tealInk` UPPER.
+Ibn Battuta appears twice by design: as the Rank 2 legend and as the seventh category guide. Always use the outfit that matches the role.
+
+Rules: rank legends unlock automatically at each overall rank; the seven category guides award bronze/silver/gold (21 trophies in total) for category challenges; one legend can be set as the active **mentor** (reacts to correct answers and milestones). Guide speech bubble: off-white, r `20 20 20 4`, 14/700 navy text, speaker label 12/900 `tealInk` UPPER.
 
 ---
 

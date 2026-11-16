@@ -27,4 +27,49 @@ do $$ begin
   assert (select count(*) from character_art_assets where is_placeholder) = 16, 'placeholder art per role';
   assert (select style_token_key from subject_categories where slug = 'politics_world_affairs') = 'politics_world',
     'style token alias kept';
+  assert (select style_token_key from subject_categories where slug = 'explorers_pioneers_discoverers') = 'travel_cultures',
+    'Pathfinder token alias';
+  assert (select string_agg(c.visual_variant, ',' order by c.role_type) from character_roles c
+          join historical_people p on p.id = c.person_id where p.slug = 'ibn_battuta') = 'guide,legend',
+    'Ibn Battuta outfit per role';
+  assert (select icon_key from trophy_definitions where slug = 'explorers_journal') = 'route', 'Pathfinder trophy icon';
+end $$;
+
+-- v1.3 policies, thresholds, leagues, trophy rules.
+do $$ begin
+  assert (select count(*) from game_policy_versions where is_active) = 5, 'five active policies';
+  assert (select string_agg(t.rank_slug || ':' || t.min_verified_xp, ',' order by t.min_verified_xp)
+          from xp_rank_thresholds t where t.policy_version_id = active_policy_id('xp_ranks'))
+    = 'tourist:0,traveler:500,explorer:1500,navigator:3500,cartographer:7000,geographer:12000,'
+      'world_expert:20000,master_geographer:32000,world_master:50000', 'v1.3 rank thresholds';
+  assert (select string_agg(slug, ',' order by position) from league_tiers)
+    = 'bronze,silver,gold,platinum,diamond,world_elite', 'six league tiers';
+  assert (select count(*) from leagues) = 6, 'leagues view';
+  assert (select points from league_scoring_rules where rule_key = 'battle_win') = 15, 'battle win LP';
+  assert (select min_distinct_correct from category_trophy_rules where tier = 'gold') = 200, 'gold rule';
+  assert (select (config ->> 'practice_daily_cap')::int from game_policy_versions
+          where policy_key = 'xp_awards' and is_active) = 300, 'practice cap';
+end $$;
+
+-- v1.3 A3: exactly 195 countries, unique keys, Holy See + Palestine, no Taiwan/Kosovo.
+do $$ begin
+  assert (select count(*) from country_catalog) = 195, '195 countries';
+  assert (select count(*) from country_catalog where counts_toward_195) = 195, '195 counted';
+  assert (select count(distinct iso3) from country_catalog) = 195, 'unique iso3';
+  assert (select count(*) from country_catalog where un_status = 'un_member') = 193, '193 UN members';
+  assert (select string_agg(iso2, ',' order by iso2) from country_catalog where un_status = 'un_observer') = 'PS,VA',
+    'observer states';
+  assert not exists (select 1 from country_catalog where iso2 in ('TW', 'XK')), 'denominator excludes TW/XK';
+  assert (select country_count from country_catalog_versions) = 195, 'catalog version';
+end $$;
+-- The 196th counted country is refused.
+do $$ begin
+  begin
+    insert into country_catalog (iso2, iso3, name, un_status, catalog_version_id)
+    values ('XK', 'XKX', 'Kosovo', 'un_observer', (select id from country_catalog_versions limit 1));
+    set constraints all immediate;
+    raise exception 'should have failed';
+  exception when raise_exception then
+    if sqlerrm = 'should have failed' then raise; end if;
+  end;
 end $$;

@@ -75,6 +75,14 @@ MOJIBAKE_RE = re.compile(r"(Ã.|â€|Â\s|�)")
 HTML_ENTITY_RE = re.compile(r"&(amp|lt|gt|quot|#\d+|#x[0-9a-f]+);", re.I)
 DISCOVERY_RE = re.compile(r"\bdiscover(ed|y|er)?\b", re.I)
 
+# Provenance confirmed by the owner (2026-11-16): the package SVGs were drawn with Claude Design.
+# See docs/ASSET_PROVENANCE.md. This records origin; it is not legal advice.
+ASSET_ATTRIBUTION = "Drawn with Claude Design (Anthropic) for GeoMaster"
+ASSET_LICENSE = ("Output rights assigned to the account holder under Anthropic's terms ('if any'); "
+                 "copyright protection of AI-generated output is uncertain")
+ASSET_PROVENANCE = ("ai_generated:claude_design; schematic educational diagram, not survey or map data; "
+                    "owner confirmed 2026-11-16")
+
 # SVG safety policy: a strict allow-list of elements; no scripts, events, external refs.
 SVG_NS = "http://www.w3.org/2000/svg"
 SVG_ALLOWED = {
@@ -439,8 +447,9 @@ def build(args) -> dict:
             "bundle_path": f"assets/questions/{base}",
             "sha256": sha256_bytes(data), "byte_size": len(data), "width": w, "height": h,
             "alt_text": alt, "alt_text_status": "auto_from_svg_text" if alt else "missing",
-            "attribution": "[PLACEHOLDER] Supplied in GeoMaster test package; author not recorded",
-            "license": None, "license_status": "pending_review",
+            "attribution": ASSET_ATTRIBUTION,
+            "license": ASSET_LICENSE, "license_status": "ai_generated_assigned",
+            "provenance": ASSET_PROVENANCE,
         })
 
     # Per-question status: any error -> quarantined; flags recorded on the row.
@@ -493,7 +502,8 @@ def build(args) -> dict:
 
     # Archive raw inputs (never modified) with checksums.
     zip_sha = sha256_bytes(zip_path.read_bytes())
-    shutil.copy2(zip_path, archive_dir / zip_path.name)
+    if (archive_dir / zip_path.name).resolve() != zip_path:
+        shutil.copy2(zip_path, archive_dir / zip_path.name)
     (archive_dir / jname.split("/")[-1]).write_bytes(jbytes)
     checks = {zip_path.name: zip_sha, jname.split("/")[-1]: sha256_bytes(jbytes)}
     if csvinfo:

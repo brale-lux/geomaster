@@ -27,6 +27,10 @@ PSQL=(psql "$DATABASE_URL" -X -q -v ON_ERROR_STOP=1)
 
 echo "== Postgres $("${PSQL[@]}" -tAc 'show server_version')"
 "${PSQL[@]}" -f "$ROOT/tests/sql/00_supabase_stub.sql"
+# Guard: plpgsql ASSERT must be enabled, or every test below would pass vacuously.
+if "${PSQL[@]}" -c 'do $$ begin assert false, $x$probe$x$; end $$' >/dev/null 2>&1; then
+  echo "plpgsql.check_asserts is off; refusing to run tests"; exit 1
+fi
 
 for pass in 1 2; do
   for f in "$ROOT"/supabase/migrations/*.sql; do

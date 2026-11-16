@@ -1,6 +1,6 @@
 -- GeoMaster 0700: reference seed data (idempotent upserts).
 -- 7 categories, 9 ranks, 15 distinct historical people, 16 roles (9 rank legends + 7 guides),
--- 7 guide assignments, 16 trophy definitions.
+-- 7 guide assignments, 16 trophy definitions, v1.3 policies, rank thresholds, league tiers and rules.
 -- Biographies are short draft educational summaries (biography_status = draft_unverified)
 -- pending editorial review; they contain no quotations.
 
@@ -16,25 +16,68 @@ insert into public.subject_categories (slug, display_name, description, sort_ord
   ('space_astronomy', 'Space & Astronomy',
    'Planets, dwarf planets, moons, comets, asteroids, stars, galaxies, constellations, nebulae, discoveries and missions.', 5, 'space_astronomy'),
   ('explorers_pioneers_discoverers', 'Explorers, Pioneers & Discoverers',
-   'Explorers and travellers, navigators, astronomers, scientific and spaceflight pioneers, cartographers, and who recorded which discoveries, when and how.', 6, 'explorers_pioneers_discoverers'),
+   'Explorers and travellers, navigators, astronomers, scientific and spaceflight pioneers, cartographers, and who recorded which discoveries, when and how.', 6, 'travel_cultures'),
   ('connected_world', 'Connected World',
    'Interdisciplinary questions linking geography, history, trade, coinage, politics, space discoveries and exploration.', 7, 'connected_world')
 on conflict (slug) do update set
   display_name = excluded.display_name, description = excluded.description,
   sort_order = excluded.sort_order, style_token_key = excluded.style_token_key;
 
--- XP thresholds are placeholders (v1.1 prompt unavailable); tune as data, not code.
-insert into public.rank_definitions (slug, position, display_name, min_verified_xp) values
-  ('tourist', 1, 'Tourist', 0),
-  ('traveler', 2, 'Traveler', 1000),
-  ('explorer', 3, 'Explorer', 3000),
-  ('navigator', 4, 'Navigator', 7000),
-  ('cartographer', 5, 'Cartographer', 15000),
-  ('geographer', 6, 'Geographer', 30000),
-  ('world_expert', 7, 'World Expert', 60000),
-  ('master_geographer', 8, 'Master Geographer', 120000),
-  ('world_master', 9, 'World Master', 250000)
+insert into public.rank_definitions (slug, position, display_name) values
+  ('tourist', 1, 'Tourist'), ('traveler', 2, 'Traveler'), ('explorer', 3, 'Explorer'),
+  ('navigator', 4, 'Navigator'), ('cartographer', 5, 'Cartographer'), ('geographer', 6, 'Geographer'),
+  ('world_expert', 7, 'World Expert'), ('master_geographer', 8, 'Master Geographer'),
+  ('world_master', 9, 'World Master')
 on conflict (slug) do nothing;
+
+-- v1.3 section A: initial policy versions (admin-adjustable; changes are new versions, never retroactive).
+insert into public.game_policy_versions (policy_key, version, is_active, effective_from, source, config) values
+  ('xp_ranks', 1, true, '2026-01-01T00:00:00Z', 'GeoMaster spec v1.3 A1', '{}'),
+  ('xp_awards', 1, true, '2026-01-01T00:00:00Z', 'GeoMaster spec v1.3 A1', jsonb_build_object(
+     'practice_correct', 10, 'practice_incorrect', 2, 'lesson_complete', 20, 'lesson_size', 10,
+     'daily_complete', 30, 'daily_perfect', 20,
+     'practice_daily_cap', 300, 'noncompetitive_daily_cap', 400, 'daily_challenge_daily_cap', 50,
+     'once_per_question_per_utc_day', true)),
+  ('league_scoring', 1, true, '2026-01-01T00:00:00Z', 'GeoMaster spec v1.3 A2', jsonb_build_object(
+     'group_size', 30, 'promote_fraction', 0.2, 'relegate_fraction', 0.2, 'min_active_for_percent', 10,
+     'min_active_for_small_group_promotion', 3, 'max_lp_battles_per_day', 3, 'daily_challenge_max_lp', 30)),
+  ('country_mastery', 1, true, '2026-01-01T00:00:00Z', 'GeoMaster spec v1.3 A3', jsonb_build_object(
+     'window', 10, 'min_distinct_questions', 5, 'min_distinct_dates', 2, 'min_content_types', 2,
+     'mastered_min_score', 80)),
+  ('category_trophies', 1, true, '2026-01-01T00:00:00Z', 'GeoMaster spec v1.3 A4', '{}')
+on conflict (policy_key, version) do nothing;
+
+insert into public.xp_rank_thresholds (policy_version_id, rank_slug, min_verified_xp)
+select p.id, t.rank_slug, t.xp
+from public.game_policy_versions p,
+     (values ('tourist', 0), ('traveler', 500), ('explorer', 1500), ('navigator', 3500),
+             ('cartographer', 7000), ('geographer', 12000), ('world_expert', 20000),
+             ('master_geographer', 32000), ('world_master', 50000)) as t(rank_slug, xp)
+where p.policy_key = 'xp_ranks' and p.version = 1
+on conflict do nothing;
+
+insert into public.league_tiers (slug, position, name) values
+  ('bronze', 1, 'Bronze'), ('silver', 2, 'Silver'), ('gold', 3, 'Gold'),
+  ('platinum', 4, 'Platinum'), ('diamond', 5, 'Diamond'), ('world_elite', 6, 'World Elite')
+on conflict (slug) do nothing;
+
+insert into public.league_scoring_rules (policy_version_id, rule_key, points, daily_limit)
+select p.id, r.k, r.pts, r.lim
+from public.game_policy_versions p,
+     (values ('daily_completion', 10, 1), ('daily_per_correct', 2, null), ('battle_win', 15, 3),
+             ('battle_draw', 7, 3), ('battle_loss', 3, 3)) as r(k, pts, lim)
+where p.policy_key = 'league_scoring' and p.version = 1
+on conflict do nothing;
+
+insert into public.category_trophy_rules (policy_version_id, tier, min_distinct_correct, min_subtopics,
+                                          min_accuracy, accuracy_window, min_distinct_utc_dates)
+select p.id, r.tier, r.n, r.sub, r.acc, r.win, r.dates
+from public.game_policy_versions p,
+     (values ('bronze', 20, 2, null::numeric, null::smallint, null::smallint),
+             ('silver', 75, 4, 0.75, 50::smallint, null::smallint),
+             ('gold', 200, 5, 0.85, 100::smallint, 5::smallint)) as r(tier, n, sub, acc, win, dates)
+where p.policy_key = 'category_trophies' and p.version = 1
+on conflict do nothing;
 
 insert into public.historical_people
   (slug, display_name, lifespan_label, era_label, historical_region, contribution_summary, biography, source_notes)
@@ -102,8 +145,9 @@ values
 on conflict (slug) do nothing;
 
 -- Rank legends (9).
-insert into public.character_roles (person_id, role_type, rank_slug)
-select p.id, 'rank_legend', r.rank_slug
+insert into public.character_roles (person_id, role_type, rank_slug, visual_variant)
+select p.id, 'rank_legend', r.rank_slug,
+       case when r.person_slug = 'ibn_battuta' then 'legend' else 'default' end
 from (values ('tourist', 'marco_polo'), ('traveler', 'ibn_battuta'), ('explorer', 'zheng_he'),
              ('navigator', 'ferdinand_magellan'), ('cartographer', 'gerardus_mercator'),
              ('geographer', 'alexander_von_humboldt'), ('world_expert', 'al_biruni'),
@@ -114,8 +158,9 @@ where not exists (select 1 from public.character_roles c
                   where c.role_type = 'rank_legend' and c.rank_slug = r.rank_slug);
 
 -- Category guides (7).
-insert into public.character_roles (person_id, role_type, category_slug, guide_title)
-select p.id, 'category_guide', g.category_slug, g.title
+insert into public.character_roles (person_id, role_type, category_slug, guide_title, visual_variant)
+select p.id, 'category_guide', g.category_slug, g.title,
+       case when g.person_slug = 'ibn_battuta' then 'guide' else 'default' end
 from (values ('geography_nature', 'strabo', 'The Atlas Keeper'),
              ('history_civilizations', 'herodotus', 'The Timekeeper'),
              ('economics_trade', 'adam_smith', 'The Market Sage'),
@@ -137,7 +182,7 @@ on conflict (category_slug) do nothing;
 -- Trophies: 9 rank trophies (single) + 7 category trophies (bronze/silver/gold).
 insert into public.trophy_definitions (slug, character_role_id, name, icon_key, tiered, unlock_rule)
 select t.slug, c.id, t.name, t.icon, false,
-       jsonb_build_object('type', 'rank_reached', 'rank_slug', t.key)
+       jsonb_build_object('type', 'rank_reached', 'rank_slug', t.key, 'policy_key', 'xp_ranks')
 from (values ('travelers_compass', 'tourist', 'Traveler''s Compass', 'compass'),
              ('golden_travel_journal', 'traveler', 'Golden Travel Journal', 'journal'),
              ('treasure_fleet_ship', 'explorer', 'Treasure Fleet Ship', 'ship'),
@@ -154,17 +199,14 @@ on conflict (slug) do nothing;
 insert into public.trophy_definitions (slug, character_role_id, name, icon_key, tiered, unlock_rule)
 select t.slug, c.id, t.name, t.icon, true,
        jsonb_build_object('type', 'category_performance', 'category_slug', t.key,
-                          'tiers', jsonb_build_object(
-                            'bronze', jsonb_build_object('min_verified_correct', 25, 'min_accuracy', 0.6),
-                            'silver', jsonb_build_object('min_verified_correct', 100, 'min_accuracy', 0.75),
-                            'gold', jsonb_build_object('min_verified_correct', 250, 'min_accuracy', 0.85)))
+                          'policy_key', 'category_trophies')
 from (values ('golden_atlas', 'geography_nature', 'Golden Atlas', 'atlas'),
              ('scroll_of_ages', 'history_civilizations', 'Scroll of Ages', 'scroll'),
              ('golden_balance', 'economics_trade', 'Golden Balance', 'balance'),
              ('pillars_of_wisdom', 'politics_world_affairs', 'Pillars of Wisdom', 'pillars'),
              ('celestial_telescope', 'space_astronomy', 'Celestial Telescope', 'telescope'),
              ('orb_of_knowledge', 'connected_world', 'Orb of Knowledge', 'orb'),
-             ('explorers_journal', 'explorers_pioneers_discoverers', 'Explorer''s Journal', 'journal'))
+             ('explorers_journal', 'explorers_pioneers_discoverers', 'Explorer''s Journal', 'route'))
      as t(slug, key, name, icon)
 join public.category_guide_assignments a on a.category_slug = t.key
 join public.character_roles c on c.id = a.character_role_id
@@ -177,4 +219,3 @@ select c.person_id, c.id, 'bust', true,
 from public.character_roles c join public.historical_people p on p.id = c.person_id
 where not exists (select 1 from public.character_art_assets a where a.character_role_id = c.id);
 
--- League tiers are intentionally not seeded yet: names/tiers come from the v1.1 spec (missing).

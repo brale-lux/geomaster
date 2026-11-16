@@ -10,7 +10,7 @@ create table if not exists public.lessons (
   difficulty       smallint not null default 1 check (difficulty between 1 and 5),
   sort_order       integer not null default 100,
   editorial_status text not null default 'draft_unverified'
-                     check (editorial_status in ('draft_unverified', 'in_review', 'approved', 'retired')),
+                     check (editorial_status in ('draft_unverified', 'needs_review', 'approved', 'retired')),
   created_at       timestamptz not null default now()
 );
 
@@ -52,15 +52,35 @@ create table if not exists public.user_answers (
 );
 create index if not exists user_answers_user_question_idx on public.user_answers (user_id, question_id);
 
+-- v1.3 A3: per-country verified score 0-100 from the last 10 country-linked verified answers.
+-- X/195 counts only status = 'mastered'; first_mastered_at keeps the lifetime achievement.
 create table if not exists public.country_mastery (
-  user_id          uuid not null references public.profiles (id) on delete cascade,
-  country_iso2     char(2) not null references public.country_catalog (iso2),
-  mastery_points   integer not null default 0 check (mastery_points >= 0),
-  status           text not null default 'new' check (status in ('new', 'learning', 'familiar', 'mastered')),
-  mastered_at      timestamptz,
-  updated_at       timestamptz not null default now(),
+  user_id            uuid not null references public.profiles (id) on delete cascade,
+  country_iso2       char(2) not null references public.country_catalog (iso2),
+  score              smallint not null default 0 check (score between 0 and 100),
+  status             text not null default 'not_started'
+                       check (status in ('not_started', 'learning', 'mastered', 'review_due')),
+  first_mastered_at  timestamptz,
+  policy_version_id  uuid,
+  updated_at         timestamptz not null default now(),
   primary key (user_id, country_iso2)
 );
+create index if not exists country_mastery_mastered_idx on public.country_mastery (user_id) where status = 'mastered';
+
+create table if not exists public.user_country_mastery_evidence (
+  id               bigint generated always as identity primary key,
+  user_id          uuid not null references public.profiles (id) on delete cascade,
+  country_iso2     char(2) not null references public.country_catalog (iso2),
+  question_id      uuid not null references public.questions (id),
+  user_answer_id   uuid not null unique references public.user_answers (id) on delete cascade,
+  session_id       uuid references public.user_learning_sessions (id) on delete set null,
+  content_type     text not null check (content_type in ('map', 'capital', 'flag', 'fact', 'other')),
+  is_correct       boolean not null,
+  answered_on_utc  date not null,
+  created_at       timestamptz not null default now()
+);
+create index if not exists ucme_user_country_idx
+  on public.user_country_mastery_evidence (user_id, country_iso2, created_at desc);
 
 create table if not exists public.subject_mastery (
   user_id          uuid not null references public.profiles (id) on delete cascade,
@@ -68,7 +88,8 @@ create table if not exists public.subject_mastery (
   answered         integer not null default 0 check (answered >= 0),
   correct          integer not null default 0 check (correct >= 0 and correct <= answered),
   mastery_points   integer not null default 0 check (mastery_points >= 0),
-  status           text not null default 'new' check (status in ('new', 'learning', 'familiar', 'mastered')),
+  status           text not null default 'not_started'
+                     check (status in ('not_started', 'learning', 'practicing', 'mastered')),
   updated_at       timestamptz not null default now(),
   primary key (user_id, category_slug)
 );

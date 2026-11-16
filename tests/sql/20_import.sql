@@ -12,8 +12,9 @@ do $$ begin
   assert (select count(*) from question_options) = 2080, '4 options each';
   assert (select count(*) from question_answer_keys) = 520, 'one answer key each';
   assert (select count(*) from question_asset_links) = 27, '27 visual questions linked';
-  assert (select count(*) from question_assets where sanitized and license_status = 'pending_review') = 27,
-    'assets sanitised, licence pending (not invented)';
+  assert (select count(*) from question_assets where sanitized and license_status = 'ai_generated_assigned'
+          and provenance like 'ai_generated:claude_design%') = 27, 'assets sanitised, Claude Design provenance';
+  assert (select count(*) from question_editorial_events where note = 'imported') = 520, 'editorial event per import';
   assert not exists (select 1 from question_sources where is_verified), 'source hints are not verified citations';
   assert (select count(*) from question_revisions where status = 'original_import') = 520, 'revision 1 snapshot';
   assert (select count(*) from content_versions) = 1, 'one content version';

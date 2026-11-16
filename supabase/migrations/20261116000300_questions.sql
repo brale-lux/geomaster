@@ -25,7 +25,7 @@ create table if not exists public.questions (
                           check (cohort in ('original_500', 'explorers_plus20', 'other')),
   editorial_status      text not null default 'draft_unverified'
                           check (editorial_status in
-                            ('draft_unverified', 'in_review', 'approved', 'rejected', 'quarantined', 'retired')),
+                            ('draft_unverified', 'needs_review', 'approved', 'rejected', 'quarantined', 'retired')),
   -- Only approved content may ever be used in ranked/daily play.
   ranked_eligible       boolean not null default false,
   qa_flags              jsonb not null default '[]'::jsonb check (jsonb_typeof(qa_flags) = 'array'),
@@ -78,7 +78,8 @@ create table if not exists public.question_assets (
   license         text,
   license_status  text not null default 'pending_review'
                     check (license_status in ('pending_review', 'original_work_confirmed', 'licensed',
-                                              'public_domain', 'rejected')),
+                                              'public_domain', 'ai_generated_assigned', 'rejected')),
+  provenance      text,
   sanitized       boolean not null default false,
   content_version_id uuid references public.content_versions (id),
   created_at      timestamptz not null default now()
@@ -145,6 +146,33 @@ create table if not exists public.question_reviews (
   check (decision <> 'approve' or (evidence is not null and char_length(evidence) >= 10))
 );
 create index if not exists question_reviews_question_idx on public.question_reviews (question_id);
+
+-- v1.3 A6: append-only audit of every editorial state change.
+create table if not exists public.question_editorial_events (
+  id               bigint generated always as identity primary key,
+  question_id      uuid not null references public.questions (id) on delete cascade,
+  revision_number  integer not null,
+  from_status      text,
+  to_status        text not null,
+  actor_id         uuid references public.profiles (id),
+  note             text,
+  created_at       timestamptz not null default now()
+);
+create index if not exists question_editorial_events_q_idx on public.question_editorial_events (question_id, created_at);
+
+create or replace function public.tg_question_editorial_event()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if tg_op = 'INSERT' or new.editorial_status is distinct from old.editorial_status then
+    insert into question_editorial_events (question_id, revision_number, from_status, to_status, actor_id, note)
+    values (new.id, new.current_revision, case when tg_op = 'UPDATE' then old.editorial_status end,
+            new.editorial_status, auth.uid(), case when tg_op = 'INSERT' then 'imported' end);
+  end if;
+  return new;
+end $$;
+drop trigger if exists question_editorial_event on public.questions;
+create trigger question_editorial_event after insert or update of editorial_status on public.questions
+  for each row execute function public.tg_question_editorial_event();
 
 create table if not exists public.import_runs (
   id                 uuid primary key default gen_random_uuid(),

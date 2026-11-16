@@ -3,8 +3,9 @@
 **Master the World — X/195.** A geography and world-knowledge quiz for Android and iOS, built with
 Flutter and Supabase.
 
-This repository currently contains the **data foundation**: the Supabase schema with row-level security,
-reference data for the seven subject categories and the Hall of Legends, and a validated import of the
+This repository currently contains the **data foundation** for spec v1.3: the Supabase schema with row-level
+security, versioned game policies (rank thresholds, XP awards, leagues, mastery, trophies), the 195-country
+allowlist, reference data for the seven subject categories and the Hall of Legends, and a validated import of the
 520-question **draft** test bank. The Flutter app is the next phase. See
 [`docs/INTEGRATION_AUDIT.md`](docs/INTEGRATION_AUDIT.md) for what was found, what is missing and the plan.
 
@@ -13,7 +14,9 @@ reference data for the seven subject categories and the Hall of Legends, and a v
 | Path | What it is |
 |---|---|
 | `design/` | Your style guide, design tokens and Flutter theme, copied verbatim. The source of truth for all visuals. |
-| `docs/` | Integration prompt v1.2 and the integration audit. |
+| `docs/` | Spec v1.3 (current) and v1.2, the integration audit and asset provenance. |
+| `assets/data/` | Canonical 195-country allowlist (v1.3). Regenerate its seed with `tool/generate_country_seed.py`. |
+| `assets/fonts/licenses/` | OFL licence texts for Source Sans 3, Fredoka and Nunito. |
 | `supabase/migrations/` | Idempotent, versioned SQL migrations (schema, seeds, server functions, RLS). |
 | `tool/import_questions.py` | Question-bank validator and importer (Python 3.10+, standard library only). |
 | `content/raw/<version>/` | The original question package, unmodified, with `SHA256SUMS`. |
@@ -79,20 +82,27 @@ tests/run_db_tests.sh                                  # needs Postgres 15+ bina
 ```
 
 `run_db_tests.sh` starts a temporary Postgres with a small Supabase stand-in (`tests/sql/00_supabase_stub.sql`),
-applies all migrations twice, imports the bank twice, and checks seeds, import counts, RLS, the editorial path,
-rank/trophy unlocks and offline-sync idempotency. CI runs both on every push and pull request.
+applies all migrations twice, imports the bank twice, and checks seeds, the 195-country catalog, import counts, RLS,
+the editorial path, rank boundaries (0/499/500/1499/1500/49999/50000), duplicate-award prevention, category trophy
+tiers, league promotion/relegation for large and small groups, and offline-sync idempotency. CI runs both on every push and pull request.
 
 ## Asset licensing
 
-The 27 question SVGs came with the test package without author or licence metadata. They are recorded with
-`license_status = 'pending_review'` and a `[PLACEHOLDER]` attribution until you confirm their origin.
-Hall of Legends portraits are placeholder records only; no historical images are used or scraped.
+The SVG artwork was drawn with Claude Design; the 27 question SVGs are recorded as `ai_generated_assigned`
+with a provenance note. Map shapes are placeholders until licensed data (e.g. Natural Earth) is imported.
+Fonts are SIL OFL 1.1. No web portraits or photos are used. Details: [`docs/ASSET_PROVENANCE.md`](docs/ASSET_PROVENANCE.md).
+
+## Game rules live in the database
+
+Rank thresholds, XP award amounts and caps, league scoring, country-mastery and trophy rules are rows in
+`game_policy_versions` and its child tables, not constants in code. To change one, insert a new version and
+switch `is_active`; earned XP and trophies are never rewritten.
 
 ## Status
 
 | Phase | State |
 |---|---|
 | A. Audit | Done (`docs/INTEGRATION_AUDIT.md`) |
-| B. Foundation | Database done; Flutter app, theme wiring and mobile CI not started |
+| B. Foundation | Database done (v1.3); Flutter app, theme wiring and mobile CI not started |
 | C. Test content | Import, QA report and sandbox RPCs done; Storage upload and sandbox UI not started |
 | D–F | Not started |
