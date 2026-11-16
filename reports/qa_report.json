@@ -1,0 +1,160 @@
+{
+ "generated_at": "2026-11-16T17:57:41+00:00",
+ "content_version": "geomaster-test-2026-11-plus20",
+ "schema_version": "1.1",
+ "checksums": {
+  "GeoMaster_520_Questions_and_Visuals.zip": "b639272e647bcf6b2f2a53b35796ee894a3423d9b924c5c717f30733447b1ebb",
+  "GeoMaster_520_Test_Questions.json": "c5620076656dad4cc1fb3d02a63642d23ef34fdb2d7a6d9aa39f0a653e5d690c",
+  "GeoMaster_520_Test_Questions.csv": "346b6d28cb136e03bdbe409d22f64489636dc9d3fdb26f0b732fff826ef5d51d"
+ },
+ "metrics": {
+  "questions": 520,
+  "by_category": {
+   "connected_world": 50,
+   "economics_trade": 85,
+   "explorers_pioneers_discoverers": 20,
+   "geography_nature": 110,
+   "history_civilizations": 100,
+   "politics_world_affairs": 70,
+   "space_astronomy": 85
+  },
+  "by_difficulty": {
+   "1": 36,
+   "2": 256,
+   "3": 197,
+   "4": 31
+  },
+  "by_visual": {
+   "visual": 27,
+   "text_only": 493
+  },
+  "by_status": {
+   "draft_unverified": 520
+  },
+  "by_cohort": {
+   "original_500": 500,
+   "explorers_plus20": 20
+  },
+  "by_correct_position": {
+   "0": 172,
+   "1": 121,
+   "2": 122,
+   "3": 105
+  },
+  "approved": 0,
+  "assets_shipped": 27,
+  "errors": 0,
+  "warnings": 18,
+  "quarantined": 0
+ },
+ "issues": [
+  {
+   "severity": "warning",
+   "code": "needs_reference_year",
+   "id": "GM-0259",
+   "detail": "Time-sensitive wording without a period/reference year"
+  },
+  {
+   "severity": "warning",
+   "code": "needs_reference_year",
+   "id": "GM-0262",
+   "detail": "Time-sensitive wording without a period/reference year"
+  },
+  {
+   "severity": "warning",
+   "code": "needs_reference_year",
+   "id": "GM-0302",
+   "detail": "Time-sensitive wording without a period/reference year"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0302",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0308",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "needs_reference_year",
+   "id": "GM-0317",
+   "detail": "Time-sensitive wording without a period/reference year"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0318",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "answer_in_prompt",
+   "id": "GM-0323",
+   "detail": "Correct answer text appears in the prompt"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0328",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "answer_in_prompt",
+   "id": "GM-0338",
+   "detail": "Correct answer text appears in the prompt"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0342",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "answer_in_prompt",
+   "id": "GM-0462",
+   "detail": "Correct answer text appears in the prompt"
+  },
+  {
+   "severity": "warning",
+   "code": "lowercase_acronym",
+   "id": "GM-0467",
+   "detail": "Lower-case acronym in prompt (template artefact?)"
+  },
+  {
+   "severity": "warning",
+   "code": "answer_in_prompt",
+   "id": "GM-0484",
+   "detail": "Correct answer text appears in the prompt"
+  },
+  {
+   "severity": "warning",
+   "code": "discovery_framing",
+   "id": "GM-0507",
+   "detail": "Uses 'discover' wording; check prior/Indigenous knowledge framing"
+  },
+  {
+   "severity": "warning",
+   "code": "discovery_framing",
+   "id": "GM-0508",
+   "detail": "Uses 'discover' wording; check prior/Indigenous knowledge framing"
+  },
+  {
+   "severity": "warning",
+   "code": "discovery_framing",
+   "id": "GM-0509",
+   "detail": "Uses 'discover' wording; check prior/Indigenous knowledge framing"
+  },
+  {
+   "severity": "warning",
+   "code": "discovery_framing",
+   "id": "GM-0510",
+   "detail": "Uses 'discover' wording; check prior/Indigenous knowledge framing"
+  }
+ ]
+}

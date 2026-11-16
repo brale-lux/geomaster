@@ -1,0 +1,167 @@
+{
+  "$schema": "geomaster-design-tokens/1.0",
+  "meta": {
+    "name": "GeoMaster",
+    "version": "1.0.0",
+    "tagline": "Master the World — X/195",
+    "primaryTheme": "gameShowDark",
+    "themes": ["gameShowDark", "playfulLight"]
+  },
+  "color": {
+    "brand": {
+      "navy": "#12243B",
+      "navyDeep": "#0A1626",
+      "navyRaised": "#1D3A5F",
+      "navyLine": "#2A3F5C",
+      "stageGlow": "#23436B",
+      "teal": "#19B891",
+      "tealInk": "#0B7A5F",
+      "tealSoft": "#E6F7F1",
+      "gold": "#F4C35C",
+      "goldLight": "#FFD983",
+      "goldHighlight": "#FFE09A",
+      "goldDeep": "#E2A93A",
+      "goldShadow": "#A9761F",
+      "offWhite": "#F7F9FC"
+    },
+    "feedback": {
+      "alert": "#C2410C",
+      "alertBright": "#E2603B",
+      "alertSoft": "#FDEDE6",
+      "alertRing": "#FFB08F",
+      "correctTop": "#2FD3A6",
+      "correctRing": "#7FF0C9"
+    },
+    "gameShowDark": {
+      "background": "#0A1626",
+      "surface": "#12243B",
+      "surfaceRaised": "#1D3A5F",
+      "line": "#2A3F5C",
+      "textPrimary": "#F7F9FC",
+      "textSecondary": "#C9D4E3",
+      "textTertiary": "#9FB0C6",
+      "textDisabled": "#7F90A8",
+      "accentPrimary": "#F4C35C",
+      "accentSecondary": "#19B891"
+    },
+    "playfulLight": {
+      "background": "#F7F9FC",
+      "surface": "#FFFFFF",
+      "surfaceTint": "#E8EDF4",
+      "line": "#DCE3EC",
+      "divider": "#EEF2F7",
+      "track": "#E2E8F0",
+      "textPrimary": "#12243B",
+      "textSecondary": "#3D506A",
+      "accentPrimary": "#19B891",
+      "accentPrimaryText": "#0B7A5F",
+      "accentSecondary": "#F4C35C"
+    },
+    "mastery": {
+      "mastered": { "color": "#F4C35C", "icon": "crown", "label": "Mastered" },
+      "practicing": { "color": "#19B891", "icon": "half-circle", "label": "Practicing" },
+      "learning": { "color": "#12243B", "icon": "ring-dot", "label": "Learning" },
+      "not_started": { "color": "#DCE3EC", "icon": "dashed-circle", "label": "Not started" }
+    },
+    "trophyTier": {
+      "bronze": { "light": "#D49A5C", "dark": "#8E5A2B", "ink": "#E6B07A" },
+      "silver": { "light": "#DDE3EA", "dark": "#8B97A4", "ink": "#DDE3EA" },
+      "gold":   { "light": "#FFD983", "dark": "#B9862A", "ink": "#F4C35C" },
+      "locked": { "light": "#2A3F5C", "dark": "#1B2B40", "ink": "#7F90A8" }
+    },
+    "podium": {
+      "first": ["#FFE09A", "#F4C35C", "#A9761F"],
+      "second": ["#C9D4E3", "#7F90A8"],
+      "third": ["#E2A93A", "#A9761F"]
+    }
+  },
+  "gradient": {
+    "stage": { "type": "radial", "center": [0.5, 0.3], "radius": [1.2, 0.7], "stops": [["#23436B", 0], ["#12243B", 0.55], ["#0A1626", 1]] },
+    "stageCorrect": { "type": "radial", "center": [0.5, 0.28], "stops": [["#1E6B66", 0], ["#12243B", 0.6], ["#0A1626", 1]] },
+    "stageIncorrect": { "type": "radial", "center": [0.5, 0.26], "stops": [["#6B3324", 0], ["#12243B", 0.6], ["#0A1626", 1]] },
+    "stageUnlock": { "type": "radial", "center": [0.5, 0.36], "stops": [["#6A5320", 0], ["#12243B", 0.62], ["#0A1626", 1]] },
+    "rays": { "type": "repeatingConic", "color": "rgba(255,255,255,0.035)", "onDeg": 7, "offDeg": 7 },
+    "goldButton": { "type": "linear", "angle": 180, "stops": [["#FFD983", 0], ["#F4C35C", 0.55], ["#E2A93A", 1]] },
+    "goldFrame": { "type": "linear", "angle": 135, "stops": [["#FFE09A", 0], ["#F4C35C", 0.4], ["#A9761F", 1]] },
+    "answerBar": { "type": "linear", "angle": 180, "stops": [["#1D3A5F", 0], ["#0F2034", 1]] },
+    "answerCorrect": { "type": "linear", "angle": 180, "stops": [["#2FD3A6", 0], ["#19B891", 1]] },
+    "answerIncorrect": { "type": "linear", "angle": 180, "stops": [["#E2603B", 0], ["#C2410C", 1]] },
+    "answerSelected": { "type": "linear", "angle": 180, "stops": [["#FFD983", 0], ["#F4C35C", 1]] }
+  },
+  "typography": {
+    "gameShowDark": { "display": "Source Sans 3", "body": "Source Sans 3", "displayWeight": 900, "displayCase": "upper" },
+    "playfulLight": { "display": "Fredoka", "body": "Nunito", "displayWeight": 700, "displayCase": "sentence" },
+    "scale": {
+      "display":  { "size": 42, "weight": 900, "letterSpacing": 2,   "lineHeight": 1.0 },
+      "title":    { "size": 30, "weight": 900, "letterSpacing": 2,   "lineHeight": 1.05 },
+      "section":  { "size": 20, "weight": 900, "letterSpacing": 1.5, "lineHeight": 1.15 },
+      "question": { "size": 19, "weight": 700, "letterSpacing": 0,   "lineHeight": 1.25 },
+      "answer":   { "size": 18, "weight": 700, "letterSpacing": 0,   "lineHeight": 1.2 },
+      "body":     { "size": 15, "weight": 600, "letterSpacing": 0,   "lineHeight": 1.45 },
+      "button":   { "size": 17, "weight": 900, "letterSpacing": 2,   "lineHeight": 1.0 },
+      "label":    { "size": 12, "weight": 900, "letterSpacing": 1.5, "lineHeight": 1.2 },
+      "caption":  { "size": 12, "weight": 700, "letterSpacing": 0,   "lineHeight": 1.35 }
+    }
+  },
+  "radius": { "xs": 8, "sm": 12, "md": 16, "lg": 20, "xl": 24, "xxl": 28, "sheet": 32, "pill": 999 },
+  "space": { "1": 4, "1_5": 6, "2": 8, "2_5": 10, "3": 12, "3_5": 14, "4": 16, "4_5": 18, "5": 20, "6": 24, "7": 28, "8": 32, "10": 40, "screenMarginDark": 18, "screenMarginLight": 20 },
+  "size": {
+    "minTouch": 44,
+    "iconButton": 48,
+    "buttonPrimary": 62,
+    "buttonSecondary": 52,
+    "answerBar": 56,
+    "answerTile": 60,
+    "lifeline": [64, 44],
+    "timerRing": 68,
+    "bottomNav": 92,
+    "bottomNavActive": 56,
+    "phoneDesign": [390, 844]
+  },
+  "hexPlate": {
+    "description": "Elongated hexagon: polygon(p 0, W-p 0, W H/2, W-p H, p H, 0 H/2)",
+    "pointInsetByHeight": { "48": 16, "56": 18, "60": 16, "72": 22, "96": 24 },
+    "frameWidth": 2.5,
+    "railOpacity": [0.45, 0.7]
+  },
+  "elevation": {
+    "dropGold": { "dx": 0, "dy": 6, "blur": 0, "color": "#A9761F" },
+    "dropNavy": { "dx": 0, "dy": 5, "blur": 0, "color": "#0A1626" },
+    "dropTeal": { "dx": 0, "dy": 5, "blur": 0, "color": "#0B7A5F" },
+    "glowGold": { "blur": 22, "color": "rgba(244,195,92,0.45)" },
+    "glowTeal": { "blur": 22, "color": "rgba(25,184,145,0.45)" },
+    "ringInactive": { "width": 2, "color": "#2A3F5C" },
+    "ringActive": { "width": 3, "color": "#F4C35C" }
+  },
+  "motion": {
+    "press": { "ms": 80, "curve": "easeOut" },
+    "select": { "ms": 150, "curve": "easeOut" },
+    "reveal": { "ms": 350, "curve": "easeInOut" },
+    "medallion": { "ms": 450, "curve": "easeOutBack" },
+    "unlock": { "ms": 900, "curve": "easeOutCubic" },
+    "raysTurnSeconds": 60,
+    "reducedMotion": { "ms": 150, "type": "fade" }
+  },
+  "legends": {
+    "rank": [
+      { "rank": 1, "rankId": "tourist",           "name": "Marco Polo",             "trophy": "Traveler's Compass",     "icon": "compass" },
+      { "rank": 2, "rankId": "traveler",          "name": "Ibn Battuta",            "trophy": "Golden Travel Journal",  "icon": "journal" },
+      { "rank": 3, "rankId": "explorer",          "name": "Zheng He",               "trophy": "Treasure Fleet Ship",    "icon": "ship" },
+      { "rank": 4, "rankId": "navigator",         "name": "Ferdinand Magellan",     "trophy": "Ocean Astrolabe",        "icon": "astrolabe" },
+      { "rank": 5, "rankId": "cartographer",      "name": "Gerardus Mercator",      "trophy": "Golden World Atlas",     "icon": "atlas" },
+      { "rank": 6, "rankId": "geographer",        "name": "Alexander von Humboldt", "trophy": "Earth's Ecosystem Globe","icon": "globe" },
+      { "rank": 7, "rankId": "world_expert",      "name": "Al-Biruni",              "trophy": "Celestial Globe",        "icon": "celestial" },
+      { "rank": 8, "rankId": "master_geographer", "name": "Eratosthenes",           "trophy": "Golden Earth Sphere",    "icon": "sphere" },
+      { "rank": 9, "rankId": "world_master",      "name": "Leonardo da Vinci",      "trophy": "Crown of Knowledge",     "icon": "crown" }
+    ],
+    "guides": [
+      { "category": "geography_nature",   "name": "Strabo",                "nickname": "The Atlas Keeper",     "trophy": "Golden Atlas",        "icon": "atlas" },
+      { "category": "history_civilizations","name": "Herodotus",           "nickname": "The Timekeeper",       "trophy": "Scroll of Ages",      "icon": "scroll" },
+      { "category": "economics_trade",    "name": "Adam Smith",            "nickname": "The Market Sage",      "trophy": "Golden Balance",      "icon": "balance" },
+      { "category": "politics_world",     "name": "Aristotle",             "nickname": "The Statesman",        "trophy": "Pillars of Wisdom",   "icon": "pillars" },
+      { "category": "space_astronomy",    "name": "Galileo Galilei",       "nickname": "The Stargazer",        "trophy": "Celestial Telescope", "icon": "telescope" },
+      { "category": "connected_world",    "name": "Hypatia of Alexandria", "nickname": "The Knowledge Weaver", "trophy": "Orb of Knowledge",    "icon": "orb" }
+    ],
+    "trophyTiers": ["bronze", "silver", "gold"]
+  }
+}
