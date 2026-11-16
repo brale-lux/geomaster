@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Art pack (2026-11-16)
+- Added the owner's Claude Design SVG pack under `assets/art/` (characters, trophies, Pip, brand, icons, flags),
+  validated against the SVG safety allow-list and checksummed.
+- `tool/generate_art_seed.py` wires character busts, trophy medal folders and the 7 mockup flags into the
+  database with provenance; CI fails if generated seeds drift from the files.
+- "Explorer's Journal" uses the route-map medal art; the Pathfinder bust is used only on Ibn Battuta's guide role.
+
 ### v1.3 specification update (2026-11-16)
 - Adopted the v1.3 development package: XP rank thresholds (0 → 50,000), versioned game policies,
   six league tiers with weekly UTC seasons, groups of up to 30, LP scoring rules and an idempotent

@@ -26,6 +26,11 @@ jobs:
           diff -r "$RUNNER_TEMP/assets" content/assets/questions
           diff <(jq -S 'del(.generated_at)' "$RUNNER_TEMP/reports/qa_report.json") \
                <(jq -S 'del(.generated_at)' reports/qa_report.json)
+      - name: Generated seeds are up to date
+        run: |
+          python3 -I tool/generate_country_seed.py
+          python3 -I tool/generate_art_seed.py
+          git diff --exit-code -- supabase/migrations assets/art/SHA256SUMS
       - name: Migrations, import and RLS tests (local Postgres 16)
         run: |
           export PG_BIN=$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)

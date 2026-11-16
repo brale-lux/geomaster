@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="440" viewBox="0 0 200 220" role="img" aria-label="Locked legend">
+  <ellipse cx="100" cy="212" rx="62" ry="7" fill="#000000" opacity=".28" />
+  <g>
+    <path d="M34 214 C34 168 64 148 100 148 C136 148 166 168 166 214 Z" fill="#0A1626" stroke="#2A3F5C" stroke-width="3" />
+    <circle cx="100" cy="96" r="50" fill="#0A1626" stroke="#2A3F5C" stroke-width="3" />
+    <text x="100" y="116" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-weight="900" font-size="56" fill="#2A3F5C">?</text>
+  </g>
+</svg>

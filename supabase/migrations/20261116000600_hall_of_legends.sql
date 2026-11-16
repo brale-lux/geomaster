@@ -85,6 +85,8 @@ create table if not exists public.trophy_definitions (
   icon_key           text not null,
   -- Category trophies have bronze/silver/gold tiers; rank trophies are single.
   tiered             boolean not null,
+  -- Folder holding bronze.svg / silver.svg / gold.svg (rank trophies show gold.svg).
+  art_bundle_dir     text check (art_bundle_dir ~ '^assets/art/trophies/[a-z0-9-]+$'),
   unlock_rule        jsonb not null,
   is_purchasable     boolean not null default false check (is_purchasable = false)
 );
@@ -130,7 +132,9 @@ create table if not exists public.character_art_assets (
   character_role_id uuid references public.character_roles (id),
   variant         text not null check (variant in ('bust', 'locked_silhouette', 'trophy', 'thumbnail')),
   storage_path    text,
-  bundle_path     text,
+  bundle_path     text check (bundle_path ~ '^assets/art/[a-z0-9/_-]+\.svg$'),
+  sha256          text check (sha256 ~ '^[0-9a-f]{64}$'),
+  -- true until final art exists; the current flat vector art is interim (same file names will be swapped).
   is_placeholder  boolean not null default true,
   license_status  text not null default 'pending_review'
                     check (license_status in ('pending_review', 'original_work_confirmed', 'licensed',

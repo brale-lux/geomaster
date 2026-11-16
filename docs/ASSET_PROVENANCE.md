@@ -21,9 +21,9 @@ the Pip mascot, UI icons, the emblem, flags, map shapes and the question visuals
 | Asset | Status | Action before launch |
 |---|---|---|
 | 27 question SVGs (`content/assets/questions/`) | In repo, sanitised, `ai_generated_assigned` | River cards are schematic diagrams, labelled "not a geographic map". |
-| Pip, 15 legend characters, trophy medals, icons, emblem | **Not yet in the repository** (not included in the uploaded kit) | Upload the SVG files; they will be added with `ai_generated_assigned`. |
+| Art pack in `assets/art/` (124 SVGs): 16 character busts incl. Ibn Battuta's guide outfit, locked silhouette, 15 trophy designs × 3 tiers, Pip ×4, brand marks, 47 icons | In repo, all pass the SVG safety allow-list, checksums in `assets/art/SHA256SUMS`, recorded as `ai_generated_assigned` | Interim flat art; final 3D art should keep the same file names. Cultural-accuracy review pending for Ibn Battuta, Zheng He, Al-Biruni and Hypatia. A preview sheet is in `docs/art-preview-sheet.png`. |
 | Historical figures | No likeness rights (all died centuries ago) | Trademark search before using a name (e.g. "Leonardo da Vinci") in the app name, logo or store listing. |
-| Flags (Malta, Ireland, Côte d'Ivoire, Italy, Poland, Peru, Greece) | Not yet in the repository | Generally not copyrighted; check national-symbol rules (e.g. Malta's George Cross) in the content-rights step. |
-| Map and country shapes | **Placeholders only** | Replace with licensed boundary data such as Natural Earth (public domain). `country_catalog.map_shape_status` stays `missing`/`placeholder` until then. |
+| Flags (Malta, Ireland, Côte d'Ivoire, Italy, Poland, Peru, Greece) | In `assets/art/flags/`, `flag_asset_status = 'mockup'` | Simplified mockups (Malta's George Cross is simplified; Peru is the civil flag). Replace with an official/public-domain flag set at correct proportions and check national-symbol rules. |
+| Map and country shapes | **Not included** (the design-canvas shapes were placeholders) | Replace with licensed boundary data such as Natural Earth (public domain). `country_catalog.map_shape_status` stays `missing`/`placeholder` until then. |
 | Fonts: Source Sans 3, Fredoka, Nunito | SIL OFL 1.1, licence texts in `assets/fonts/licenses/` | Bundle the font files in Phase B and register the licences in the app. |
 | Portraits or photos from the web | **Not used** | Never ship without a licence. |

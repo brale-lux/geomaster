@@ -55,6 +55,8 @@ create table if not exists public.country_catalog (
   -- Counts toward "Master the World - X/195". Territories/dependencies are never in this table.
   counts_toward_195 boolean not null default true,
   flag_asset_path text,
+  -- 'mockup' = simplified design-canvas flag; replace with an official/public-domain set before release.
+  flag_asset_status text not null default 'missing' check (flag_asset_status in ('missing', 'mockup', 'official')),
   -- Map shapes are placeholders until licensed boundary data (e.g. Natural Earth) is imported.
   map_shape_status text not null default 'missing'
                      check (map_shape_status in ('missing', 'placeholder', 'licensed')),

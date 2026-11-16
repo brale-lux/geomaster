@@ -101,6 +101,7 @@ maps `explorers_pioneers_discoverers` to the `travel_cultures` token entry.
 
 **Kept beyond v1.3's list:** the `quarantined` editorial state (from v1.2 §6) for import failures. No question is currently quarantined.
 
-**Still open:** the character, trophy, mascot, icon and flag SVGs are not in the repository (they were not in the uploaded kit).
-Map shapes stay placeholders until licensed data (e.g. Natural Earth) is imported. There is no Supabase project yet.
+**Art pack (added later the same day):** 124 SVGs are now in `assets/art/` and wired into the database (see `docs/ASSET_PROVENANCE.md`).
+
+**Still open:** flags are simplified mockups; character depictions of four figures need a cultural-accuracy review. Map shapes stay placeholders until licensed data (e.g. Natural Earth) is imported. There is no Supabase project yet.
 XP daily caps and LP awarding are stored as policy data; the scoring functions that apply them belong to Phase D.

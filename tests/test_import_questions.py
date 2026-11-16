@@ -162,5 +162,13 @@ class Validation(unittest.TestCase):
         self.assertNotEqual(iq.canonical_hash(q), iq.canonical_hash(q2))
 
 
+class ArtPack(unittest.TestCase):
+    def test_all_art_svgs_pass_safety_policy(self):
+        svgs = sorted((ROOT / "assets/art").rglob("*.svg"))
+        self.assertEqual(len(svgs), 124)
+        for p in svgs:
+            self.assertEqual(iq.check_svg(p.name, p.read_bytes())[0], [], str(p))
+
+
 if __name__ == "__main__":
     unittest.main()

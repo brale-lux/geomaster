@@ -73,3 +73,24 @@ do $$ begin
     if sqlerrm = 'should have failed' then raise; end if;
   end;
 end $$;
+
+-- Art pack (Claude Design): every role, trophy and the 7 mockup flags are wired up.
+do $$ begin
+  assert (select count(*) from character_art_assets where variant = 'bust' and bundle_path is not null
+          and sha256 is not null and license_status = 'ai_generated_assigned'
+          and provenance like 'ai_generated:claude_design%') = 16, 'art for all 16 roles';
+  assert (select bundle_path from character_art_assets a join character_roles c on c.id = a.character_role_id
+          where c.role_type = 'category_guide' and c.category_slug = 'explorers_pioneers_discoverers')
+    like '%ibn-battuta-pathfinder.svg', 'Pathfinder outfit on the guide role';
+  assert (select bundle_path from character_art_assets a join character_roles c on c.id = a.character_role_id
+          where c.role_type = 'rank_legend' and c.rank_slug = 'traveler')
+    like '%rank-2-traveler-ibn-battuta.svg', 'rank outfit on the legend role';
+  assert (select count(*) from character_art_assets where cultural_review_status = 'pending') = 5,
+    'cultural review pending for Ibn Battuta (x2), Zheng He, Al-Biruni, Hypatia';
+  assert (select count(*) from trophy_definitions where art_bundle_dir is not null) = 16, 'trophy art';
+  assert (select art_bundle_dir from trophy_definitions where slug = 'explorers_journal')
+    = 'assets/art/trophies/golden-route-map', 'Explorer''s Journal uses the route-map medal';
+  assert (select string_agg(iso2, ',' order by iso2) from country_catalog where flag_asset_status = 'mockup')
+    = 'CI,GR,IE,IT,MT,PE,PL', 'seven mockup flags';
+  assert not exists (select 1 from country_catalog where map_shape_status <> 'missing'), 'no map shapes yet';
+end $$;

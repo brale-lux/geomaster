@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 210 210" role="img" aria-label="GeoMaster app icon">
+<rect width="210" height="210" fill="#12243B"/>
+<circle cx="105" cy="105" r="80" fill="#0A1626" stroke="#F4C35C" stroke-width="8"/>
+<circle cx="105" cy="105" r="66" fill="#19B891"/>
+<g fill="#12243B" opacity=".9" transform="translate(105 105) scale(.92) translate(-105 -105)"><path d="M60 80 q15 -22 40 -18 q8 10 -4 18 q-14 2 -12 16 q-10 12 -20 4 q-8 -8 -4 -20z"/><path d="M118 62 q22 -2 34 16 q-6 8 -16 6 q-6 10 4 18 q4 16 -10 26 q-12 6 -16 -8 q-6 -16 -12 -24 q6 -14 16 -34z"/><path d="M86 128 q12 -4 18 6 q2 14 -8 22 q-10 -6 -10 -28z"/></g>
+</svg>
