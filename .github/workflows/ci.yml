@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  content-and-database:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validator unit tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: QA report is up to date
+        run: |
+          python3 -I tool/import_questions.py validate \
+            --zip content/raw/geomaster-test-2026-11-plus20/GeoMaster_520_Questions_and_Visuals.zip \
+            --out "$RUNNER_TEMP/reports" --assets-out "$RUNNER_TEMP/assets" --archive "$RUNNER_TEMP/raw"
+          diff -r "$RUNNER_TEMP/assets" content/assets/questions
+          diff <(jq -S 'del(.generated_at)' "$RUNNER_TEMP/reports/qa_report.json") \
+               <(jq -S 'del(.generated_at)' reports/qa_report.json)
+      - name: Generated seeds are up to date
+        run: |
+          python3 -I tool/generate_country_seed.py
+          python3 -I tool/generate_art_seed.py
+          python3 -I tool/generate_flag_seed.py
+          python3 -I tool/fetch_flags.py --offline
+          git diff --exit-code -- supabase/migrations assets/art/SHA256SUMS assets/flags/MANIFEST.json
+      - name: Migrations, import and RLS tests (local Postgres 16)
+        run: |
+          export PG_BIN=$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)
+          tests/run_db_tests.sh

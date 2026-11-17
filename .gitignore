@@ -1,0 +1,13 @@
+# Secrets
+.env
+.env.*
+!.env.example
+# Derived import output (regenerate with tool/import_questions.py validate)
+reports/import_payload.json
+reports/import_result.json
+__pycache__/
+*.pyc
+.DS_Store
+# Supabase local
+supabase/.temp/
+supabase/.branches/

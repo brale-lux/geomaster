@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="440" viewBox="0 0 200 220" role="img" aria-label="Hypatia of Alexandria">
+  <ellipse cx="100" cy="212" rx="62" ry="7" fill="#000000" opacity=".28" />
+  <g>
+    <path d="M34 214 C34 168 64 148 100 148 C136 148 166 168 166 214 Z" fill="#19B891" />
+    <path d="M100 148 C136 148 166 168 166 214 L120 214 C126 182 118 160 100 148 Z" fill="#000000" opacity=".16" />
+    <ellipse cx="68" cy="178" rx="16" ry="10" fill="#FFFFFF" opacity=".16" />
+    <g>
+      <path d="M64 154 C96 166 126 186 150 214 L108 214 C92 196 70 184 40 180 C44 168 52 160 64 154 Z" fill="#EDE6D6" />
+      <path d="M64 154 C96 166 126 186 150 214 L140 214 C118 190 92 172 60 160 Z" fill="#FFFFFF" opacity=".35" />
+      <path d="M58 172 C80 178 100 192 116 210" fill="none" stroke="#000000" stroke-opacity=".10" stroke-width="3" />
+    </g>
+    <g aria-label="Papyrus scroll">
+      <rect x="120" y="178" width="30" height="12" rx="2" fill="#F3E3B5" transform="rotate(-20 135 184)" />
+      <ellipse cx="120" cy="184" rx="3.5" ry="7" fill="#C9A35C" transform="rotate(-20 135 184)" />
+      <ellipse cx="150" cy="184" rx="3.5" ry="7" fill="#C9A35C" transform="rotate(-20 135 184)" />
+    </g>
+    <rect x="88" y="130" width="24" height="24" rx="8" fill="#D9A577" />
+    <rect x="88" y="130" width="24" height="12" fill="#000000" opacity=".12" />
+    <circle cx="52" cy="102" r="10" fill="#D9A577" />
+    <circle cx="148" cy="102" r="10" fill="#D9A577" />
+    <circle cx="100" cy="96" r="50" fill="#D9A577" />
+    <path d="M128 55 A50 50 0 0 1 128 137 A46 46 0 0 0 128 55 Z" fill="#000000" opacity=".10" />
+    <ellipse cx="80" cy="72" rx="18" ry="11" fill="#FFFFFF" opacity=".28" />
+    <g fill="#2B1D14">
+      <path d="M50 94 C48 46 152 46 150 94 C142 70 122 60 100 60 C78 60 58 70 50 94 Z" />
+    </g>
+    <g fill="#2B1D14">
+      <circle cx="100" cy="44" r="17" />
+    </g>
+    <path d="M70 86 q10 -7 20 0" fill="none" stroke="#2B1D14" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M110 86 q10 -7 20 0" fill="none" stroke="#2B1D14" stroke-width="4.5" stroke-linecap="round" />
+    <ellipse cx="80" cy="101" rx="7.5" ry="9.5" fill="#1B2430" />
+    <ellipse cx="120" cy="101" rx="7.5" ry="9.5" fill="#1B2430" />
+    <circle cx="82.5" cy="97" r="2.8" fill="#FFFFFF" />
+    <circle cx="122.5" cy="97" r="2.8" fill="#FFFFFF" />
+    <ellipse cx="66" cy="118" rx="8" ry="5" fill="#F28C7A" opacity=".45" />
+    <ellipse cx="134" cy="118" rx="8" ry="5" fill="#F28C7A" opacity=".45" />
+    <ellipse cx="100" cy="113" rx="5.5" ry="4.5" fill="#000000" opacity=".12" />
+    <path d="M89 127 q11 11 22 0 Z" fill="#8E3B2E" />
+    <path d="M93 128 h14" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".85" />
+    <g>
+      <path d="M52 82 C80 66 120 66 148 82" fill="none" stroke="#F4C35C" stroke-width="7" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

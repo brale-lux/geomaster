@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="440" viewBox="0 0 200 220" role="img" aria-label="Ibn Battuta, the Pathfinder">
+  <ellipse cx="100" cy="212" rx="62" ry="7" fill="#000000" opacity=".28" />
+  <g>
+    <path d="M34 214 C34 168 64 148 100 148 C136 148 166 168 166 214 Z" fill="#E8D9B8" />
+    <path d="M100 148 C136 148 166 168 166 214 L120 214 C126 182 118 160 100 148 Z" fill="#000000" opacity=".16" />
+    <ellipse cx="68" cy="178" rx="16" ry="10" fill="#FFFFFF" opacity=".16" />
+    <g>
+      <path d="M58 158 L148 214 L122 214 L48 170 Z" fill="#19B891" />
+      <path d="M58 158 L148 214 L138 214 L52 164 Z" fill="#FFFFFF" opacity=".25" />
+    </g>
+    <g aria-label="The Rihla, his travel narrative">
+      <rect x="54" y="176" width="30" height="24" rx="3" fill="#7A4A26" transform="rotate(-8 69 188)" />
+      <rect x="57" y="179" width="24" height="18" rx="2" fill="#F3EEE3" transform="rotate(-8 69 188)" />
+      <path d="M61 184 h16 M61 189 h16 M61 194 h10" stroke="#7A4A26" stroke-width="1.6" stroke-linecap="round" transform="rotate(-8 69 188)" />
+      <rect x="54" y="176" width="4" height="24" fill="#19B891" transform="rotate(-8 69 188)" />
+    </g>
+    <rect x="88" y="130" width="24" height="24" rx="8" fill="#C98E62" />
+    <rect x="88" y="130" width="24" height="12" fill="#000000" opacity=".12" />
+    <circle cx="52" cy="102" r="10" fill="#C98E62" />
+    <circle cx="148" cy="102" r="10" fill="#C98E62" />
+    <circle cx="100" cy="96" r="50" fill="#C98E62" />
+    <path d="M128 55 A50 50 0 0 1 128 137 A46 46 0 0 0 128 55 Z" fill="#000000" opacity=".10" />
+    <ellipse cx="80" cy="72" rx="18" ry="11" fill="#FFFFFF" opacity=".28" />
+    <path d="M70 86 q10 -7 20 0" fill="none" stroke="#2B1D14" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M110 86 q10 -7 20 0" fill="none" stroke="#2B1D14" stroke-width="4.5" stroke-linecap="round" />
+    <ellipse cx="80" cy="101" rx="7.5" ry="9.5" fill="#1B2430" />
+    <ellipse cx="120" cy="101" rx="7.5" ry="9.5" fill="#1B2430" />
+    <circle cx="82.5" cy="97" r="2.8" fill="#FFFFFF" />
+    <circle cx="122.5" cy="97" r="2.8" fill="#FFFFFF" />
+    <ellipse cx="66" cy="118" rx="8" ry="5" fill="#F28C7A" opacity=".45" />
+    <ellipse cx="134" cy="118" rx="8" ry="5" fill="#F28C7A" opacity=".45" />
+    <ellipse cx="100" cy="113" rx="5.5" ry="4.5" fill="#000000" opacity=".12" />
+    <g fill="#2B1D14">
+      <path d="M52 102 C52 164 148 164 148 102 C140 134 122 142 100 142 C78 142 60 134 52 102 Z" />
+    </g>
+    <g fill="#2B1D14">
+      <path d="M80 123 C88 115 98 117 100 121 C102 117 112 115 120 123 C112 128 104 126 100 124 C96 126 88 128 80 123 Z" />
+    </g>
+    <path d="M89 127 q11 11 22 0 Z" fill="#8E3B2E" />
+    <path d="M93 128 h14" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".85" />
+    <g>
+      <ellipse cx="100" cy="58" rx="57" ry="31" fill="#E2A93A" />
+      <path d="M48 62 C80 40 120 40 152 62M52 76 C84 54 118 54 148 76" fill="none" stroke="#000000" stroke-opacity=".14" stroke-width="4" />
+      <ellipse cx="80" cy="42" rx="18" ry="7" fill="#FFFFFF" opacity=".3" />
+      <path d="M138 70 C154 86 154 116 144 140 L134 137 C143 116 142 92 130 78 Z" fill="#E2A93A" />
+      <path d="M138 70 C154 86 154 116 144 140 L140 139 C148 116 147 92 134 76 Z" fill="#000000" opacity=".12" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 120 120" role="img" aria-label="Bronze trophy">
+  <path d="M60 4 L108 32 L108 88 L60 116 L12 88 L12 32 Z" fill="#8E5A2B" />
+  <path d="M60 10 L102 35 L102 85 L60 110 L18 85 L18 35 Z" fill="#D49A5C" />
+  <path d="M60 10 L102 35 L102 60 L18 60 L18 35 Z" fill="#FFFFFF" opacity=".22" />
+  <circle cx="60" cy="60" r="31" fill="#12243B" opacity=".9" />
+  <circle cx="60" cy="60" r="31" fill="none" stroke="#8E5A2B" stroke-width="3" />
+  <g transform="translate(39 39) scale(1.75)" fill="none" stroke="#E6B07A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 5l5-2 6 2 5-2v16l-5 2-6-2-5 2zM9 3v16M15 5v16" />
+  </g>
+  <ellipse cx="44" cy="26" rx="12" ry="5" fill="#FFFFFF" opacity=".35" transform="rotate(-30 44 26)" />
+</svg>
