@@ -79,7 +79,7 @@ Only `approved` questions can be marked `ranked_eligible`.
 ## Tests
 
 ```bash
-python3 -m unittest discover -s tests -p 'test_*.py'   # validator: 14 tests
+python3 -m unittest discover -s tests -p 'test_*.py'   # validator, art and flags: 17 tests
 tests/run_db_tests.sh                                  # needs Postgres 15+ binaries (initdb, pg_ctl, psql)
 ```
 

@@ -103,5 +103,7 @@ maps `explorers_pioneers_discoverers` to the `travel_cultures` token entry.
 
 **Art pack (added later the same day):** 124 SVGs are now in `assets/art/` and wired into the database (see `docs/ASSET_PROVENANCE.md`).
 
-**Still open:** flags are simplified mockups; character depictions of four figures need a cultural-accuracy review. Map shapes stay placeholders until licensed data (e.g. Natural Earth) is imported. There is no Supabase project yet.
+**Flags (2026-11-17):** all 195 now come from Wikimedia Commons with per-file licences; national-symbol review is pending.
+
+**Still open:** character depictions of four figures await a human cultural-accuracy review. Map shapes stay placeholders until licensed data (e.g. Natural Earth) is imported. There is no Supabase project yet.
 XP daily caps and LP awarding are stored as policy data; the scoring functions that apply them belong to Phase D.
