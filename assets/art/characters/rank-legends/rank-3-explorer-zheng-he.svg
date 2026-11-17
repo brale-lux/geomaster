@@ -6,7 +6,11 @@
     <path d="M100 148 C136 148 166 168 166 214 L120 214 C126 182 118 160 100 148 Z" fill="#000000" opacity=".16" />
     <ellipse cx="68" cy="178" rx="16" ry="10" fill="#FFFFFF" opacity=".16" />
     <g>
-      <path d="M80 152 L100 188 L120 152" fill="none" stroke="#F4C35C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M78 151 C82 166 118 166 122 151" fill="none" stroke="#7E231C" stroke-width="7" stroke-linecap="round" />
+      <rect x="82" y="172" width="36" height="32" rx="2" fill="#F4C35C" />
+      <rect x="86" y="176" width="28" height="24" rx="1" fill="#1D3A5F" />
+      <path d="M89 194 q5 -6 10 0 q5 -6 10 0 q3 -4 6 -1" fill="none" stroke="#F7F9FC" stroke-width="2" stroke-linecap="round" />
+      <circle cx="100" cy="184" r="3.5" fill="#F4C35C" />
     </g>
     <rect x="88" y="130" width="24" height="24" rx="8" fill="#E8B98E" />
     <rect x="88" y="130" width="24" height="12" fill="#000000" opacity=".12" />
@@ -30,7 +34,7 @@
       <rect x="58" y="28" width="84" height="44" rx="16" fill="#1B2430" />
       <ellipse cx="38" cy="60" rx="24" ry="6" fill="#1B2430" />
       <ellipse cx="162" cy="60" rx="24" ry="6" fill="#1B2430" />
-      <rect x="56" y="62" width="88" height="10" rx="3" fill="#F4C35C" />
+      <rect x="56" y="62" width="88" height="10" rx="3" fill="#0A1626" />
       <ellipse cx="80" cy="38" rx="12" ry="5" fill="#FFFFFF" opacity=".18" />
     </g>
   </g>

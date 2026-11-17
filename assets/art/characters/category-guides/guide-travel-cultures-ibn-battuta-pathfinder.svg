@@ -9,6 +9,12 @@
       <path d="M58 158 L148 214 L122 214 L48 170 Z" fill="#19B891" />
       <path d="M58 158 L148 214 L138 214 L52 164 Z" fill="#FFFFFF" opacity=".25" />
     </g>
+    <g aria-label="The Rihla, his travel narrative">
+      <rect x="54" y="176" width="30" height="24" rx="3" fill="#7A4A26" transform="rotate(-8 69 188)" />
+      <rect x="57" y="179" width="24" height="18" rx="2" fill="#F3EEE3" transform="rotate(-8 69 188)" />
+      <path d="M61 184 h16 M61 189 h16 M61 194 h10" stroke="#7A4A26" stroke-width="1.6" stroke-linecap="round" transform="rotate(-8 69 188)" />
+      <rect x="54" y="176" width="4" height="24" fill="#19B891" transform="rotate(-8 69 188)" />
+    </g>
     <rect x="88" y="130" width="24" height="24" rx="8" fill="#C98E62" />
     <rect x="88" y="130" width="24" height="12" fill="#000000" opacity=".12" />
     <circle cx="52" cy="102" r="10" fill="#C98E62" />
@@ -37,7 +43,8 @@
       <ellipse cx="100" cy="58" rx="57" ry="31" fill="#E2A93A" />
       <path d="M48 62 C80 40 120 40 152 62M52 76 C84 54 118 54 148 76" fill="none" stroke="#000000" stroke-opacity=".14" stroke-width="4" />
       <ellipse cx="80" cy="42" rx="18" ry="7" fill="#FFFFFF" opacity=".3" />
-      <circle cx="100" cy="68" r="7" fill="#19B891" stroke="#FFFFFF" stroke-width="2" />
+      <path d="M138 70 C154 86 154 116 144 140 L134 137 C143 116 142 92 130 78 Z" fill="#E2A93A" />
+      <path d="M138 70 C154 86 154 116 144 140 L140 139 C148 116 147 92 134 76 Z" fill="#000000" opacity=".12" />
     </g>
   </g>
 </svg>

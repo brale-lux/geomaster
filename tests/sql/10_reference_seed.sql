@@ -94,3 +94,11 @@ do $$ begin
     = 'CI,GR,IE,IT,MT,PE,PL', 'seven mockup flags';
   assert not exists (select 1 from country_catalog where map_shape_status <> 'missing'), 'no map shapes yet';
 end $$;
+
+-- Cultural-accuracy requirements recorded; expert review still pending (never auto-approved).
+do $$ begin
+  assert (select count(*) from historical_people where depiction_brief is not null) = 4, 'four briefs';
+  assert (select depiction_brief from historical_people where slug = 'zheng_he') like '%avoiding Qing%', 'Zheng He brief';
+  assert (select biography from historical_people where slug = 'ibn_battuta') like '%Amazigh%Marinid%Rihla%', 'Ibn Battuta bio';
+  assert not exists (select 1 from character_art_assets where cultural_review_status = 'approved'), 'no self-approval';
+end $$;

@@ -44,6 +44,8 @@ create table if not exists public.historical_people (
   biography_status      text not null default 'draft_unverified'
                           check (biography_status in ('draft_unverified', 'needs_review', 'approved')),
   source_notes          text not null,
+  -- Owner's cultural-accuracy requirements for how the person is depicted (art direction).
+  depiction_brief       text,
   portrait_disclaimer   text not null default
     'Stylised educational illustration. Not a verified likeness.',
   created_at            timestamptz not null default now()

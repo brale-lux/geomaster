@@ -11,12 +11,12 @@ update public.character_art_assets a set
                                 then 'pending' else 'not_required' end
 from (values
   ('rank_legend', 'tourist', 'assets/art/characters/rank-legends/rank-1-tourist-marco-polo.svg', 'b891046dacc03fc705052c1f7aec361eaebd1c820468df25713ddefc1a66da30', 'Marco Polo'),
-  ('rank_legend', 'traveler', 'assets/art/characters/rank-legends/rank-2-traveler-ibn-battuta.svg', '3cc5a90c545c347389baec3b1fa56f540ae088bf9fab25edb9e4f2411753feeb', 'Ibn Battuta'),
-  ('rank_legend', 'explorer', 'assets/art/characters/rank-legends/rank-3-explorer-zheng-he.svg', '810c845b2de4da84a8906f5fb7b0eda8d82b50d1ef5a114bdeea782600663481', 'Zheng He'),
+  ('rank_legend', 'traveler', 'assets/art/characters/rank-legends/rank-2-traveler-ibn-battuta.svg', '9d6186d76cac8025a39135b901fa5d542a6f91a33b68a222106f9d4c863498fb', 'Ibn Battuta'),
+  ('rank_legend', 'explorer', 'assets/art/characters/rank-legends/rank-3-explorer-zheng-he.svg', 'dcfa8a42a8439952a62968247c90d130a86092d3c9883ded17f28070cc35f5a1', 'Zheng He'),
   ('rank_legend', 'navigator', 'assets/art/characters/rank-legends/rank-4-navigator-ferdinand-magellan.svg', '853be678703923eee2f86762be4e785e160b5deb7c8ea918d9a38a778a730e6c', 'Ferdinand Magellan'),
   ('rank_legend', 'cartographer', 'assets/art/characters/rank-legends/rank-5-cartographer-gerardus-mercator.svg', 'e123153a235b1188ecd25124fe6482c5b1e5dd3c972aee1c1da1c752ba4bb106', 'Gerardus Mercator'),
   ('rank_legend', 'geographer', 'assets/art/characters/rank-legends/rank-6-geographer-alexander-von-humboldt.svg', '2edb5074909bb83d98bd09342667251e15131ddd767b218ae640372b98034490', 'Alexander von Humboldt'),
-  ('rank_legend', 'world_expert', 'assets/art/characters/rank-legends/rank-7-world-expert-al-biruni.svg', '98741e8a7fff3d9251b743ce5f8c8be5c868d3ceb40f8db970c71645685c5b19', 'Al-Biruni'),
+  ('rank_legend', 'world_expert', 'assets/art/characters/rank-legends/rank-7-world-expert-al-biruni.svg', 'cbb09ceaa0381c383b318caa68a046b8339d66ecca3a3750e5dc209c7503be79', 'Al-Biruni'),
   ('rank_legend', 'master_geographer', 'assets/art/characters/rank-legends/rank-8-master-geographer-eratosthenes.svg', 'abc8d84a42b502eb199f8bf8a946c37481f167c13dda93f1a9dba992e10fbd3b', 'Eratosthenes'),
   ('rank_legend', 'world_master', 'assets/art/characters/rank-legends/rank-9-world-master-leonardo-da-vinci.svg', '26287aef26e3cc333730132484b263a0e045a6f0b88e1ef2f52a3288211171ac', 'Leonardo da Vinci'),
   ('category_guide', 'geography_nature', 'assets/art/characters/category-guides/guide-geography-nature-strabo.svg', '7661415ada8fc749611c2f774e26550edb6c409a239cc70d26c6eb90a0e3c35d', 'Strabo'),
@@ -24,8 +24,8 @@ from (values
   ('category_guide', 'economics_trade', 'assets/art/characters/category-guides/guide-economics-trade-adam-smith.svg', '13481b57ee8a5cd8c990cd79c244942bf61f3fb6c2a34895d7d7cc778a6b1230', 'Adam Smith'),
   ('category_guide', 'politics_world_affairs', 'assets/art/characters/category-guides/guide-politics-world-affairs-aristotle.svg', '928243e12db4847a53f1b0d4b93d48374b56c2b43463ae9a4dd84d7261f70692', 'Aristotle'),
   ('category_guide', 'space_astronomy', 'assets/art/characters/category-guides/guide-space-astronomy-galileo-galilei.svg', 'ac3bfe8171faa3d8bfef4d07053515f527220a227b73f298a2cb261202869a2b', 'Galileo Galilei'),
-  ('category_guide', 'connected_world', 'assets/art/characters/category-guides/guide-connected-world-hypatia.svg', '21a3c05dc8b6aca8d45b41fa46c037ba0aed30771de3d6f7851695a92ec96e74', 'Hypatia of Alexandria'),
-  ('category_guide', 'explorers_pioneers_discoverers', 'assets/art/characters/category-guides/guide-travel-cultures-ibn-battuta-pathfinder.svg', '487adb889325e2f8655b3d48a27dafe3206e091926dd3a26ea3223b0cbcc248a', 'Ibn Battuta, the Pathfinder')
+  ('category_guide', 'connected_world', 'assets/art/characters/category-guides/guide-connected-world-hypatia.svg', '24f288016ff7516a49b871aeb457ecf946152abf8a46fddf5c19a9731370662b', 'Hypatia of Alexandria'),
+  ('category_guide', 'explorers_pioneers_discoverers', 'assets/art/characters/category-guides/guide-travel-cultures-ibn-battuta-pathfinder.svg', '90a6c094c24c3f7db941f255ddb82d6393f5c0242de74a01afdd26bab3c327a8', 'Ibn Battuta, the Pathfinder')
 ) as v(role_type, role_key, bundle_path, sha256, alt_text),
 public.character_roles c, public.historical_people p
 where c.role_type = v.role_type and c.role_key = v.role_key and p.id = c.person_id

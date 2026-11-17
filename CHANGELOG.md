@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Cultural accuracy (2026-11-17)
+- Recorded the owner's depiction requirements for Ibn Battuta, Zheng He, Al-Biruni and Hypatia
+  (`historical_people.depiction_brief`, `docs/CULTURAL_ACCURACY.md`).
+- Edited their interim SVGs: removed South Asian cues (turban jewels, forehead ornament), Ming round collar
+  and rank badge for Zheng He, and added the Rihla manuscript, an astrolabe and a papyrus scroll.
+- Updated their biographies (Amazigh background and Marinid Morocco; Ming diplomat; Khwarazm and the
+  Persianate tradition; Greek-speaking Roman Alexandria). Expert review is still pending.
+
 ### Art pack (2026-11-16)
 - Added the owner's Claude Design SVG pack under `assets/art/` (characters, trophies, Pip, brand, icons, flags),
   validated against the SVG safety allow-list and checksummed.

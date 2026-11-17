@@ -88,11 +88,11 @@ values
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('ibn_battuta', 'Ibn Battuta', '1304 – c. 1368/69', 'Late medieval', 'Morocco; North Africa, Middle East, South and East Asia, West Africa',
    'Moroccan traveller whose Rihla records some three decades of journeys across Afro-Eurasia.',
-   'Ibn Battuta left Tangier in 1325 on pilgrimage and kept travelling for about thirty years, through North and West Africa, the Middle East, Central and South Asia and possibly China. His account, the Rihla, was dictated to the scholar Ibn Juzayy. Some passages are debated by historians.',
+   'Ibn Battuta was a 14th-century traveller and legal scholar from Tangier, of Amazigh (Berber) background, in Marinid-era Morocco. He left in 1325 on pilgrimage and kept travelling for about thirty years, through North and West Africa, the Middle East, Central and South Asia and possibly China. On his return the Marinid sultan had his account, the Rihla, written down by the scholar Ibn Juzayy. Some passages are debated by historians.',
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('zheng_he', 'Zheng He', '1371 – c. 1433/35', 'Ming dynasty', 'Ming China; Indian Ocean',
-   'Ming admiral who commanded seven large maritime expeditions across the Indian Ocean.',
-   'Zheng He commanded the Ming treasure fleets on seven voyages between 1405 and 1433, reaching Southeast Asia, India, the Arabian Peninsula and the East African coast. The voyages were diplomatic and commercial as well as naval.',
+   'Early 15th-century Ming admiral and diplomat who commanded seven large maritime expeditions across the Indian Ocean.',
+   'Zheng He was an admiral and diplomat at the early Ming court. He commanded the Ming treasure fleets on seven voyages between 1405 and 1433, reaching Southeast Asia, India, the Arabian Peninsula and the East African coast. The voyages carried envoys and tribute as well as trade goods, and were diplomatic as much as naval.',
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('ferdinand_magellan', 'Ferdinand Magellan', 'c. 1480 – 1521', 'Age of Sail', 'Portugal; Spain; Pacific Ocean',
    'Led the Spanish expedition of 1519–1522 that became the first circumnavigation; he died before it was completed.',
@@ -108,7 +108,7 @@ values
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('al_biruni', 'Al-Biruni', '973 – c. 1050', 'Islamic Golden Age', 'Khwarazm; Ghazni; South Asia',
    'Scholar of astronomy, mathematics and geography who estimated the Earth''s radius and wrote a major study of India.',
-   'Abu Rayhan al-Biruni worked in Central Asia and at the Ghaznavid court. He wrote on astronomy, mathematics, geodesy and comparative culture, including a method for estimating the Earth''s radius from a mountain-top observation and a detailed study of India.',
+   'Abu Rayhan al-Biruni was an 11th-century scholar from Khwarazm in Central Asia, working within the Persianate and Islamic scholarly traditions and writing mainly in Arabic. Later based at the Ghaznavid court, he wrote on astronomy, mathematics, geography and geodesy, including a method for estimating the Earth''s radius from a mountain-top observation, and a detailed study of India.',
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('eratosthenes', 'Eratosthenes', 'c. 276 – c. 194 BCE', 'Hellenistic', 'Cyrene; Alexandria',
    'Greek scholar who estimated the Earth''s circumference and helped found geography as a discipline.',
@@ -139,10 +139,20 @@ values
    'Galileo Galilei improved the telescope and in 1610 published observations of the Moon''s surface, many new stars, and four moons orbiting Jupiter. His support for a Sun-centred system led to his trial by the Roman Inquisition in 1633.',
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.'),
   ('hypatia_of_alexandria', 'Hypatia of Alexandria', 'c. 350/370 – 415 CE', 'Late antiquity', 'Alexandria (Roman Egypt)',
-   'Mathematician, astronomer and philosopher who taught in Alexandria.',
-   'Hypatia taught mathematics, astronomy and Neoplatonic philosophy in Alexandria and is associated with commentaries on earlier mathematical and astronomical works. She was killed by a mob in 415 CE during political and religious conflict in the city.',
+   'Late-antique Greek-speaking philosopher and mathematician who taught in Roman Alexandria.',
+   'Hypatia was a Greek-speaking philosopher and mathematician in Alexandria, then part of the eastern Roman Empire. She taught mathematics, astronomy and Neoplatonic philosophy and is associated with commentaries on earlier mathematical and astronomical works. She was killed by a mob in 415 CE during political and religious conflict in the city.',
    '[EDITORIAL] Verify against a scholarly encyclopedia entry before approval.')
 on conflict (slug) do nothing;
+
+-- Owner's cultural-accuracy requirements (2026-11-17). Applied to the current art; expert review still pending.
+update public.historical_people h set depiction_brief = v.brief
+from (values
+  ('ibn_battuta', 'Represent a 14th-century Moroccan traveller and scholar of Amazigh background. Reference Marinid-era Morocco and his travel narrative, the Rihla.'),
+  ('zheng_he', 'Represent an early 15th-century Chinese Ming dynasty admiral and diplomat. Use Ming-period maritime and court references, avoiding Qing dynasty or Japanese visual elements.'),
+  ('al_biruni', 'Represent an 11th-century scholar from Khwarazm, within the Central Asian, Persianate and Islamic scholarly traditions. Emphasise astronomy, mathematics and geography.'),
+  ('hypatia_of_alexandria', 'Represent a late-antique Greek-speaking philosopher and mathematician from Roman Alexandria. Use historically plausible eastern Roman clothing and scholarly accessories.')
+) as v(slug, brief)
+where h.slug = v.slug and h.depiction_brief is distinct from v.brief;
 
 -- Rank legends (9).
 insert into public.character_roles (person_id, role_type, rank_slug, visual_variant)
