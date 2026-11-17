@@ -170,5 +170,32 @@ class ArtPack(unittest.TestCase):
             self.assertEqual(iq.check_svg(p.name, p.read_bytes())[0], [], str(p))
 
 
+class Flags(unittest.TestCase):
+    def test_195_flags_safe_and_matching_manifest(self):
+        import hashlib
+        spec2 = importlib.util.spec_from_file_location("ff", ROOT / "tool/fetch_flags.py")
+        ff = importlib.util.module_from_spec(spec2)
+        spec2.loader.exec_module(ff)
+        manifest = json.loads((ROOT / "assets/flags/MANIFEST.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(manifest), 195)
+        for iso, e in manifest.items():
+            data = (ROOT / f"assets/flags/{iso.lower()}.svg").read_bytes()
+            self.assertEqual(hashlib.sha256(data).hexdigest(), e["sha256"], iso)
+            ff.sanitise(data)  # raises if anything active slipped through
+            self.assertTrue(e["license"], iso)
+            self.assertTrue(e["source_url"].startswith("https://commons.wikimedia.org/"), iso)
+
+    def test_sanitiser_rejects_active_content(self):
+        spec2 = importlib.util.spec_from_file_location("ff", ROOT / "tool/fetch_flags.py")
+        ff = importlib.util.module_from_spec(spec2)
+        spec2.loader.exec_module(ff)
+        for bad in (b'<svg xmlns="http://www.w3.org/2000/svg"><script/></svg>',
+                    b'<svg xmlns="http://www.w3.org/2000/svg" onload="x()"/>',
+                    b'<svg xmlns="http://www.w3.org/2000/svg" xmlns:x="http://www.w3.org/1999/xlink"><use x:href="http://e/a.svg#b"/></svg>',
+                    b'<svg xmlns="http://www.w3.org/2000/svg"><style>@import url(http://e/x.css);</style></svg>'):
+            with self.assertRaises(ValueError):
+                ff.sanitise(bad)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Country flags (2026-11-17)
+- All 195 flags fetched from Wikimedia Commons (`tool/fetch_flags.py`) at their true proportions, sanitised,
+  with per-file licence, author and restriction tags (`assets/flags/MANIFEST.json`, `country_flag_assets`).
+- Afghanistan uses the 2013–2021 tricolour flown at the UN, per the owner's decision.
+- National-symbol legal review is tracked per flag (`national_symbol_review = 'pending'`).
+
 ### Cultural accuracy (2026-11-17)
 - Recorded the owner's depiction requirements for Ibn Battuta, Zheng He, Al-Biruni and Hypatia
   (`historical_people.depiction_brief`, `docs/CULTURAL_ACCURACY.md`).

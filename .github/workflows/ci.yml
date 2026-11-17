@@ -30,7 +30,9 @@ jobs:
         run: |
           python3 -I tool/generate_country_seed.py
           python3 -I tool/generate_art_seed.py
-          git diff --exit-code -- supabase/migrations assets/art/SHA256SUMS
+          python3 -I tool/generate_flag_seed.py
+          python3 -I tool/fetch_flags.py --offline
+          git diff --exit-code -- supabase/migrations assets/art/SHA256SUMS assets/flags/MANIFEST.json
       - name: Migrations, import and RLS tests (local Postgres 16)
         run: |
           export PG_BIN=$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)

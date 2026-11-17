@@ -55,12 +55,30 @@ create table if not exists public.country_catalog (
   -- Counts toward "Master the World - X/195". Territories/dependencies are never in this table.
   counts_toward_195 boolean not null default true,
   flag_asset_path text,
-  -- 'mockup' = simplified design-canvas flag; replace with an official/public-domain set before release.
-  flag_asset_status text not null default 'missing' check (flag_asset_status in ('missing', 'mockup', 'official')),
+  -- 'sourced' = flag from Wikimedia Commons with a licence record in country_flag_assets.
+  flag_asset_status text not null default 'missing' check (flag_asset_status in ('missing', 'mockup', 'sourced')),
   -- Map shapes are placeholders until licensed boundary data (e.g. Natural Earth) is imported.
   map_shape_status text not null default 'missing'
                      check (map_shape_status in ('missing', 'placeholder', 'licensed')),
   created_at      timestamptz not null default now()
+);
+
+-- Per-flag provenance (Wikimedia Commons), generated from assets/flags/MANIFEST.json.
+create table if not exists public.country_flag_assets (
+  country_iso2       char(2) primary key references public.country_catalog (iso2) on update cascade,
+  bundle_path        text not null unique check (bundle_path ~ '^assets/flags/[a-z]{2}\.svg$'),
+  sha256             text not null check (sha256 ~ '^[0-9a-f]{64}$'),
+  aspect_ratio       numeric(6, 4) not null check (aspect_ratio > 0),
+  commons_title      text not null,
+  source_url         text not null check (source_url ~ '^https://commons\.wikimedia\.org/'),
+  license            text not null,
+  license_url        text,
+  artist             text,
+  -- Commons restriction tags, e.g. 'insignia' (national symbol: commercial-use rules may apply).
+  restrictions       text[] not null default '{}',
+  national_symbol_review text not null default 'pending'
+                       check (national_symbol_review in ('pending', 'cleared', 'blocked')),
+  note               text
 );
 
 -- The mastery denominator can never exceed 195.

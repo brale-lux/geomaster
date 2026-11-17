@@ -90,8 +90,14 @@ do $$ begin
   assert (select count(*) from trophy_definitions where art_bundle_dir is not null) = 16, 'trophy art';
   assert (select art_bundle_dir from trophy_definitions where slug = 'explorers_journal')
     = 'assets/art/trophies/golden-route-map', 'Explorer''s Journal uses the route-map medal';
-  assert (select string_agg(iso2, ',' order by iso2) from country_catalog where flag_asset_status = 'mockup')
-    = 'CI,GR,IE,IT,MT,PE,PL', 'seven mockup flags';
+  assert (select count(*) from country_catalog where flag_asset_status = 'sourced'
+          and flag_asset_path = 'assets/flags/' || lower(iso2) || '.svg') = 195, 'all 195 flags sourced';
+  assert (select count(*) from country_flag_assets where license = 'Public domain') = 194, '194 public domain';
+  assert (select license from country_flag_assets where country_iso2 = 'OM') = 'OGL-om 1.0', 'Oman licence recorded';
+  assert (select commons_title from country_flag_assets where country_iso2 = 'AF') like '%Afghanistan (2013%', 'AF tricolour';
+  assert not exists (select 1 from country_flag_assets where 'terrorism' = any(restrictions)), 'no terrorism-tagged flag';
+  assert (select count(*) from country_flag_assets where 'insignia' = any(restrictions)) > 150, 'insignia tags kept';
+  assert not exists (select 1 from country_flag_assets where national_symbol_review <> 'pending'), 'legal review pending';
   assert not exists (select 1 from country_catalog where map_shape_status <> 'missing'), 'no map shapes yet';
 end $$;
 

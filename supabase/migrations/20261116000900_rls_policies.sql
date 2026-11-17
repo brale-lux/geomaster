@@ -20,7 +20,7 @@ begin
     'competition_answers', 'league_tiers', 'league_seasons', 'league_memberships', 'friendships',
     'league_groups', 'league_scoring_rules', 'league_season_snapshots', 'game_policy_versions',
     'award_idempotency_keys', 'xp_rank_thresholds', 'category_trophy_rules', 'country_catalog_versions',
-    'user_country_mastery_evidence', 'question_editorial_events',
+    'user_country_mastery_evidence', 'question_editorial_events', 'country_flag_assets',
     'historical_people', 'character_roles', 'rank_definitions', 'category_guide_assignments',
     'trophy_definitions', 'user_trophies', 'mentor_dialogue', 'character_art_assets',
     'cosmetic_catalog', 'user_cosmetics', 'store_purchases', 'subscriptions']
@@ -47,7 +47,7 @@ from unnest(array['subject_categories', 'subject_subcategories', 'question_topic
                   'trophy_definitions', 'badge_definitions', 'league_tiers', 'league_seasons',
                   'cosmetic_catalog', 'content_versions', 'game_policy_versions', 'xp_rank_thresholds',
                   'category_trophy_rules', 'league_scoring_rules', 'league_groups',
-                  'country_catalog_versions']) as t;
+                  'country_catalog_versions', 'country_flag_assets']) as t;
 
 select pg_temp.policy('country_facts', 'approved_facts_read', 'select', 'anon, authenticated',
                       'editorial_status = ''approved'' or public.is_editor()');

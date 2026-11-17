@@ -17,6 +17,7 @@ allowlist, reference data for the seven subject categories and the Hall of Legen
 | `docs/` | Spec v1.3 (current) and v1.2, the integration audit and asset provenance. |
 | `assets/data/` | Canonical 195-country allowlist (v1.3). Regenerate its seed with `tool/generate_country_seed.py`. |
 | `assets/art/` | Claude Design SVG art: characters, trophies, Pip, brand, icons, mockup flags. Regenerate its seed with `tool/generate_art_seed.py`. |
+| `assets/flags/` | All 195 national flags from Wikimedia Commons with a licence manifest. Refresh with `tool/fetch_flags.py`, then `tool/generate_flag_seed.py`. |
 | `assets/fonts/licenses/` | OFL licence texts for Source Sans 3, Fredoka and Nunito. |
 | `supabase/migrations/` | Idempotent, versioned SQL migrations (schema, seeds, server functions, RLS). |
 | `tool/import_questions.py` | Question-bank validator and importer (Python 3.10+, standard library only). |
